@@ -3,7 +3,9 @@
 window.onload = onInit
 
 function onInit() {
+    initMemes()
     initListeners()
+    initCanvas()
 }
 
 function initListeners() {
