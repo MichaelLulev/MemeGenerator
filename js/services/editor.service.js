@@ -1,7 +1,10 @@
 'use strict'
 
-const DEFAULT_FONT = 'Arial'
-const DEFAULT_FONT_SIZE = 20
+const DEFAULT_FONT = 'Impact'
+const DEFAULT_FONT_SIZE = 40
+const DEFAULT_STROKE_COLOR = 'black'
+const DEFAULT_FILL_COLOR = 'white'
+const DEFAULT_LINE_WIDTH = 4
 
 const TYPE_TEXT_LINE = 'textLine'
 
@@ -35,8 +38,8 @@ function clearMeme() {
     gCurrMeme = _createMeme()
 }
 
-function addText() {
-    const textLine = _createTextLine()
+function addText(text) {
+    const textLine = _createTextLine(text)
     gCurrMeme.elements.push(textLine)
 }
 
@@ -54,12 +57,27 @@ function selectNextTextLine() {
     } else gSelectedTextLine = undefined
 }
 
+function deselectTextLine() {
+    if (gSelectedTextLine) {
+        gSelectedTextLine.isSelected = false
+        gSelectedTextLine = undefined
+    }
+}
+
 function justifyTextLine(justifySide) {
     if (gSelectedTextLine) gSelectedTextLine.justify = justifySide
 }
 
 function changeFontSize(changeAmount) {
     if (gSelectedTextLine) gSelectedTextLine.fontSize += changeAmount
+}
+
+function changeStrokeColor(color) {
+    if (gSelectedTextLine) gSelectedTextLine.strokeColor = color
+}
+
+function changeFillColor(color) {
+    if (gSelectedTextLine) gSelectedTextLine.fillColor = color
 }
 
 function _createMeme(image) {
@@ -71,11 +89,13 @@ function _createMeme(image) {
     return meme
 }
 
-function _createTextLine(text, font, fontSize, justify, align) {
+function _createTextLine(text, font, fontSize, strokeColor, fillColor, justify, align) {
     const numOfTextLines = gCurrMeme.elements.filter(el => el.type === TYPE_TEXT_LINE).length
     if (! text) text = 'Text Line'
     if (! font) font = DEFAULT_FONT
     if (! fontSize) fontSize = DEFAULT_FONT_SIZE
+    if (! strokeColor) strokeColor = DEFAULT_STROKE_COLOR
+    if (! fillColor) fillColor = DEFAULT_FILL_COLOR
     if (! justify) justify = JUSTIFY_CENTER
     if (! align) {
         if (numOfTextLines === 0) align = ALIGN_TOP
@@ -87,6 +107,8 @@ function _createTextLine(text, font, fontSize, justify, align) {
         text,
         font,
         fontSize,
+        strokeColor,
+        fillColor,
         justify,
         align,
         isSelected: false,

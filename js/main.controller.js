@@ -17,11 +17,14 @@ function initListeners() {
     $('main.gallery img').on('click', onSelectImage)
     $('main.editor button.add-line').on('click', onAddLine)
     $('main.editor button.select').on('click', onSelectNextTextLine)
+    $('main.editor button.deselect').on('click', onDeselectTextLine)
     $('main.editor button.justify-left').on('click', onJustifyLeft)
     $('main.editor button.justify-center').on('click', onJustifyCenter)
     $('main.editor button.justify-right').on('click', onJustifyRight)
     $('main.editor button.increase').on('click', onIncreaseFont)
     $('main.editor button.decrease').on('click', onDecreaseFont)
+    $('main.editor button.stroke-color').on('change', onChangeStrokeColor)
+    $('main.editor button.fill-color').on('change', onChangeFillColor)
     $('main.editor button.clear').on('click', onClear)
     $('div.about .close').on('click', onCloseAbout)
 }
@@ -47,8 +50,14 @@ function onSelectNextTextLine() {
     redrawCanvas()
 }
 
+function onDeselectTextLine() {
+    deselectTextLine()
+    redrawCanvas()
+}
+
 function onAddLine() {
-    addText()
+    const text = $('input.line-text').val()
+    addText(text)
     redrawCanvas()
 }
 
@@ -80,6 +89,16 @@ function onDecreaseFont() {
 function onClear() {
     clearMeme()
     clearCanvas()
+}
+
+function onChangeStrokeColor(ev) {
+    const color = ev.target.value
+    changeStrokeColor(color)
+}
+
+function onChangeFillColor(ev) {
+    const color = ev.target.value
+    changeFillColor(color)
 }
 
 function onToggleAbout() {

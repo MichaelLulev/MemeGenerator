@@ -34,11 +34,14 @@ function drawImage(image) {
 }
 
 function drawText(line) {
-    const { text, font, fontSize, isSelected, justify, align } = line
+    const { text, font, fontSize, strokeColor, fillColor, justify, align, isSelected } = line
+    const upperCaseText = text.toUpperCase()
     gCanvas.beginPath()
-    gCanvas.font = `bold ${fontSize}px ${font}`
-    gCanvas.fillStyle = isSelected ? 'red' : 'black'
-    const textWidth = gCanvas.measureText(text).width
+    gCanvas.font = `${fontSize}px ${font}`
+    gCanvas.fillStyle = isSelected ? 'red' : fillColor
+    gCanvas.strokeStyle = isSelected ? 'red' : strokeColor
+    gCanvas.lineWidth = DEFAULT_LINE_WIDTH
+    const textWidth = gCanvas.measureText(upperCaseText).width
     switch (justify) {
         case JUSTIFY_LEFT:
             var x = 0
@@ -52,14 +55,15 @@ function drawText(line) {
     }
     switch (align) {
         case ALIGN_TOP:
-            var y = gElCanvas.height - fontSize
+            var y = 0
             break
         case ALIGN_CENTER:
             var y = gElCanvas.height / 2 - fontSize / 2
             break
         case ALIGN_BOTTOM:
-            var y = 0
+            var y = gElCanvas.height - fontSize
             break
     }
-    gCanvas.fillText(text, x, y + fontSize)
+    gCanvas.strokeText(upperCaseText, x, y + fontSize)
+    gCanvas.fillText(upperCaseText, x, y + fontSize)
 }
