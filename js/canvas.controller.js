@@ -13,7 +13,7 @@ function redrawCanvas() {
     clearCanvas()
     if (currMeme.image) drawImage(currMeme.image)
     currMeme.elements.forEach(element => {
-        if (element.type === 'line') drawLine(element)
+        if (element.type === TYPE_TEXT_LINE) drawText(element)
     })
 }
 
@@ -33,9 +33,10 @@ function drawImage(image) {
     gCanvas.drawImage(image, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
-function drawLine(line) {
-    const { text, font, fontSize, pos } = line
+function drawText(line) {
+    const { text, font, fontSize, pos, isSelected } = line
     gCanvas.beginPath()
-    gCanvas.font = `${fontSize}px ${font}`
+    gCanvas.font = `bold ${fontSize}px ${font}`
+    gCanvas.fillStyle = isSelected ? 'red' : 'black'
     gCanvas.fillText(text, pos.x, pos.y + fontSize)
 }

@@ -10,39 +10,45 @@ function onInit() {
 }
 
 function initListeners() {
-    $('header nav .editor').on('click', showEditor)
-    $('header nav .gallery').on('click', showGallery)
-    $('header nav .about').on('click', toggleAbout)
+    $('header nav .editor').on('click', onShowEditor)
+    $('header nav .gallery').on('click', onShowGallery)
+    $('header nav .about').on('click', onToggleAbout)
     $('main.gallery img').on('click', ev => {
         createMeme(ev.target)
         redrawCanvas()
-        showEditor()
+        onShowEditor()
     })
     $('main.editor button.add-line').on('click', () => {
-        addLine()
+        addText()
         redrawCanvas()
     })
+    $('main.editor button.select').on('click', onSelectNextTextLine)
     $('main.editor button.clear').on('click', () => {
         clearMeme()
         clearCanvas()
     })
-    $('div.about .close').on('click', closeAbout)
+    $('div.about .close').on('click', onCloseAbout)
 }
 
-function showEditor() {
+function onShowEditor() {
     $('main.editor').removeClass('hidden')
     $('main.gallery').addClass('hidden')
 }
 
-function showGallery() {
+function onShowGallery() {
     $('main.editor').addClass('hidden')
     $('main.gallery').removeClass('hidden')
 }
 
-function toggleAbout() {
+function onSelectNextTextLine() {
+    selectNextTextLine()
+    redrawCanvas()
+}
+
+function onToggleAbout() {
     $('div.about').toggleClass('hidden')
 }
 
-function closeAbout() {
+function onCloseAbout() {
     $('div.about').addClass('hidden')
 }

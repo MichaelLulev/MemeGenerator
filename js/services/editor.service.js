@@ -5,6 +5,8 @@ const DEFAULT_FONT_SIZE = 20
 const DEFAULT_IMAGE_WIDTH = 400
 const DEFAULT_IMAGE_HEIGHT = 400
 
+const TYPE_TEXT_LINE = 'textLine'
+
 var gCurrMeme
 
 function initMemes() {
@@ -23,9 +25,20 @@ function clearMeme() {
     gCurrMeme = _createMeme()
 }
 
-function addLine() {
-    const line = _createLine()
-    gCurrMeme.elements.push(line)
+function addText() {
+    const textLine = _createTextLine()
+    gCurrMeme.elements.push(textLine)
+}
+
+function selectNextTextLine() {
+    const selectedLineIdx = gCurrMeme.elements.findIndex(el => el.type === TYPE_TEXT_LINE && el.isSelected)
+    if (selectedLineIdx !== -1) {
+        const selectedLine = gCurrMeme.elements[selectedLineIdx]
+        selectedLine.isSelected = false
+    }
+    const restElements = gCurrMeme.elements.slice(selectedLineIdx + 1)
+    const nextTextLine = restElements.find(el => el.type === TYPE_TEXT_LINE)
+    if (nextTextLine) nextTextLine.isSelected = true
 }
 
 function _createMeme(image) {
@@ -39,25 +52,25 @@ function _createMeme(image) {
     return meme
 }
 
-function _createLine(text, font, fontSize, pos) {
-    const numOfLines = gCurrMeme.elements.filter(el => el.type === 'line').length
-    if (! text) text = 'Line Text ' + (numOfLines + 1)
+function _createTextLine(text, font, fontSize, pos) {
+    const numOfTextLines = gCurrMeme.elements.filter(el => el.type === TYPE_TEXT_LINE).length
+    if (! text) text = 'Text Line ' + (numOfTextLines + 1)
     if (! font) font = DEFAULT_FONT
     if (! fontSize) fontSize = DEFAULT_FONT_SIZE
     if (! pos) {
         pos = {}
-        if (numOfLines === 0) pos.y = 0
-        else if (numOfLines === 1) pos.y = gCurrMeme.height - fontSize
+        if (numOfTextLines === 0) pos.y = 0
+        else if (numOfTextLines === 1) pos.y = gCurrMeme.height - fontSize
         else pos.y = gCurrMeme.height / 2 - fontSize
         pos.x = 0
     }
-    const line = {
-        type: 'line',
+    const textLine = {
+        type: TYPE_TEXT_LINE,
         text,
         font,
         fontSize,
         pos,
-        selected: false,
+        isSelected: false,
     }
-    return line
+    return textLine
 }
