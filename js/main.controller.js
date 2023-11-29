@@ -19,6 +19,12 @@ function initListeners() {
         $('main.meme-editor').addClass('hidden')
         $('main.gallery').removeClass('hidden')
     })
+    $('header nav .about').on('click', () => {
+        $('div.about').toggleClass('hidden')
+    })
+    $('div.about .close').on('click', () => {
+        $('div.about').addClass('hidden')
+    })
 }
 
 function onAddLine() {

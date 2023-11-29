@@ -1,0 +1,12 @@
+div.about:not(.hidden) {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 1em;
+    padding: 1em;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
