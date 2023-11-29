@@ -7,10 +7,18 @@
     <title>Meme Generator</title>
 </head>
 <body>
-    <h1>Meme Generator</h1>
-    <section class="canvas-container">
-        <canvas width="640" height="640"></canvas>
-    </section>
+    <header>
+        <h1>Meme Generator</h1>
+    </header>
+    <main class="meme-editor main-layout">
+        <section class="canvas-container">
+            <canvas class="meme" width="480" height="480"></canvas>
+        </section>
+        <section class="controls">
+            <button class="add-line">Add line</button>
+        </section>
+    </main>
+    <footer>All rights reserved 2023 © Michael Lulev</footer>
     <script src="js/lib/jquery.js"></script>
     <script src="js/utils/util.service.js"></script>
     <script src="js/services/storage.service.js"></script>
