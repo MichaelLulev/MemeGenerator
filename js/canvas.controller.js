@@ -1,5 +1,8 @@
 'use strict'
 
+const DEFAULT_IMAGE_WIDTH = 400
+const DEFAULT_IMAGE_HEIGHT = 400
+
 var gElCanvas
 var gCanvas
 
@@ -24,32 +27,39 @@ function clearCanvas() {
 }
 
 function drawImage(image) {
-    const currMeme = getCurrMeme()
     const width  = image.naturalWidth
     const height = image.naturalHeight
     gElCanvas.height = height / width * gElCanvas.width
-    currMeme.width = gElCanvas.width
-    currMeme.height = gElCanvas.height
     gCanvas.drawImage(image, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
 function drawText(line) {
-    const { text, font, fontSize, pos, isSelected, justify } = line
+    const { text, font, fontSize, isSelected, justify, align } = line
     gCanvas.beginPath()
     gCanvas.font = `bold ${fontSize}px ${font}`
     gCanvas.fillStyle = isSelected ? 'red' : 'black'
     const textWidth = gCanvas.measureText(text).width
     switch (justify) {
         case JUSTIFY_LEFT:
-            pos.x = 0
+            var x = 0
             break
         case JUSTIFY_CENTER:
-            pos.x = gElCanvas.width / 2 - textWidth / 2
+            var x = gElCanvas.width / 2 - textWidth / 2
             break
         case JUSTIFY_RIGHT:
-            pos.x = gElCanvas.width - textWidth
+            var x = gElCanvas.width - textWidth
             break
     }
-    // TODO: calculate pos.y HERE instead of _createTextLine() and remove pos from line
-    gCanvas.fillText(text, pos.x, pos.y + fontSize)
+    switch (align) {
+        case ALIGN_TOP:
+            var y = gElCanvas.height - fontSize
+            break
+        case ALIGN_CENTER:
+            var y = gElCanvas.height / 2 - fontSize / 2
+            break
+        case ALIGN_BOTTOM:
+            var y = 0
+            break
+    }
+    gCanvas.fillText(text, x, y + fontSize)
 }
