@@ -1,4 +1,6 @@
+@import url(setup.css);
 @import url(layouts.css);
+@import url(nav.css);
 @import url(gallery.css);
 @import url(canvas.css);
 @import url(about.css);
