@@ -3,3 +3,13 @@
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
+
+.gallery-layout {
+    max-width: 100vw;
+    display: grid;
+    /* grid-template-columns: repeat(auto-fit, 1fr); */
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+    justify-items: center;
+    gap: 1rem;
+}
