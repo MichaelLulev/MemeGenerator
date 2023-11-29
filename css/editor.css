@@ -1,0 +1,7 @@
+.controls {
+    justify-self: start;
+}
+
+.controls * {
+    width: max-content;
+}
