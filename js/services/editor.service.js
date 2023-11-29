@@ -6,8 +6,12 @@ const DEFAULT_IMAGE_WIDTH = 400
 const DEFAULT_IMAGE_HEIGHT = 400
 
 const TYPE_TEXT_LINE = 'textLine'
+const JUSTIFY_LEFT = 'justifyLeft'
+const JUSTIFY_CENTER = 'justifyCenter'
+const JUSTIFY_RIGHT = 'justifyRight'
 
 var gCurrMeme
+var gSelectedTextLine
 
 function initMemes() {
     clearMeme()
@@ -38,7 +42,10 @@ function selectNextTextLine() {
     }
     const restElements = gCurrMeme.elements.slice(selectedLineIdx + 1)
     const nextTextLine = restElements.find(el => el.type === TYPE_TEXT_LINE)
-    if (nextTextLine) nextTextLine.isSelected = true
+    if (nextTextLine) {
+        nextTextLine.isSelected = true
+        gSelectedTextLine = nextTextLine
+    } else gSelectedTextLine = undefined
 }
 
 function _createMeme(image) {
@@ -52,7 +59,7 @@ function _createMeme(image) {
     return meme
 }
 
-function _createTextLine(text, font, fontSize, pos) {
+function _createTextLine(text, font, fontSize, pos, justify) {
     const numOfTextLines = gCurrMeme.elements.filter(el => el.type === TYPE_TEXT_LINE).length
     if (! text) text = 'Text Line ' + (numOfTextLines + 1)
     if (! font) font = DEFAULT_FONT
@@ -64,12 +71,14 @@ function _createTextLine(text, font, fontSize, pos) {
         else pos.y = gCurrMeme.height / 2 - fontSize
         pos.x = 0
     }
+    if (! justify) justify = JUSTIFY_CENTER
     const textLine = {
         type: TYPE_TEXT_LINE,
         text,
         font,
         fontSize,
         pos,
+        justify,
         isSelected: false,
     }
     return textLine
