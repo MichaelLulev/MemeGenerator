@@ -19,6 +19,8 @@ function redrawCanvas() {
 
 function clearCanvas() {
     gCanvas.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
+    gElCanvas.width = DEFAULT_IMAGE_WIDTH
+    gElCanvas.height = DEFAULT_IMAGE_HEIGHT
 }
 
 function drawImage(image) {
