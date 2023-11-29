@@ -7,17 +7,14 @@ function onInit() {
     initGallery()
     initCanvas()
     initListeners()
+    onShowEditor()
 }
 
 function initListeners() {
     $('header nav .editor').on('click', onShowEditor)
     $('header nav .gallery').on('click', onShowGallery)
     $('header nav .about').on('click', onToggleAbout)
-    $('main.gallery img').on('click', ev => {
-        createMeme(ev.target)
-        redrawCanvas()
-        onShowEditor()
-    })
+    $('main.gallery img').on('click', onSelectImage)
     $('main.editor button.add-line').on('click', () => {
         addText()
         redrawCanvas()
@@ -38,6 +35,12 @@ function onShowEditor() {
 function onShowGallery() {
     $('main.editor').addClass('hidden')
     $('main.gallery').removeClass('hidden')
+}
+
+function onSelectImage(ev) {
+    createMeme(ev.target)
+    redrawCanvas()
+    onShowEditor()
 }
 
 function onSelectNextTextLine() {

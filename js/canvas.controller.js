@@ -34,9 +34,22 @@ function drawImage(image) {
 }
 
 function drawText(line) {
-    const { text, font, fontSize, pos, isSelected } = line
+    const { text, font, fontSize, pos, isSelected, justify } = line
     gCanvas.beginPath()
     gCanvas.font = `bold ${fontSize}px ${font}`
     gCanvas.fillStyle = isSelected ? 'red' : 'black'
+    const textWidth = gCanvas.measureText(text).width
+    switch (justify) {
+        case JUSTIFY_LEFT:
+            pos.x = 0
+            break
+        case JUSTIFY_CENTER:
+            pos.x = gElCanvas.width / 2 - textWidth / 2
+            break
+        case JUSTIFY_RIGHT:
+            pos.x = gElCanvas.width - textWidth
+            break
+    }
+    // TODO: calculate pos.y HERE instead of _createTextLine() and remove pos from line
     gCanvas.fillText(text, pos.x, pos.y + fontSize)
 }
