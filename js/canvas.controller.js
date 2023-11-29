@@ -10,7 +10,14 @@ function initCanvas() {
 
 function redrawCanvas() {
     const currMeme = getCurrMeme()
-    currMeme.elements.forEach(elements => {
-
+    currMeme.elements.forEach(element => {
+        if (element.type === 'line') drawLine(element)
     })
+}
+
+function drawLine(line) {
+    const { text, font, fontSize, pos } = line
+    gCanvas.beginPath()
+    gCanvas.font = `${fontSize}px ${font}`
+    gCanvas.fillText(text, pos.x, pos.y + fontSize)
 }
