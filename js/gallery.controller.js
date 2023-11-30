@@ -1,14 +1,15 @@
 'use strict'
 
 function initGallery() {
+    initImages()
     renderGallery()
 }
 
 function renderGallery() {
-    var strHtml = ''
-    for (let i = 1; i <= 25; i++) {
-        strHtml += `
-        <img src="img/gallery/${i}.jpg" alt="meme-image-${i}">`
-    }
+    const images = getImages()
+    const strHtml = images.reduce((strHtml, image) => {
+        return strHtml + `
+        <img src="img/gallery/${image.name}" alt="meme-image-${image.name}">`
+    }, '')
     el('.gallery .image-container').html(strHtml)
 }

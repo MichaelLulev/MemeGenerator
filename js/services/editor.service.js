@@ -23,9 +23,11 @@ var gCurrMeme
 var gSelectedElement
 var nextElementId
 
-function initMemes() {
+function initEditor() {
+    gCurrMeme = _createMeme()
+    gSelectedElement = undefined
     nextElementId = 1
-    clearMeme()
+    initCanvas()
 }
 
 function createMeme(image) {
@@ -36,7 +38,7 @@ function getCurrMeme() {
     return gCurrMeme
 }
 
-function clearMeme() {
+function clearCanvas() {
     gCurrMeme = _createMeme()
     deselectElement()
 }

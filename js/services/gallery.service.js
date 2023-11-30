@@ -28,18 +28,28 @@ const gSearchTagsMap = {
     24: ['man', 'funny', 'willi', 'wonka', 'happy', 'smiling', 'hand'],
     25: ['woman', 'field', 'flowers', 'mountains', 'dancing', 'hands', 'happy'],
 }
+var gNextImageId
 
 function initImages() {
+    gNextImageId = 1
+    _createAllImages()
+}
+
+function _createAllImages() {
     for (var i = 1; i <= 25; i++) {
         const name = `${i}.jpg`
         const src = `img/gallery/${name}`
-        const image = _createImage(name, src)
         const searchTags = gSearchTagsMap[i]
+        const image = _createImage(name, src, searchTags)
         gImages.push(image)
     }
 }
 
+function getImages() {
+    return gImages
+}
+
 function _createImage(name, src, searchTags) {
-    const image = { name, src, searchTags }
+    const image = { id: gNextImageId++, name, src, searchTags }
     return image
 }

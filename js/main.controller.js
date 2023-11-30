@@ -3,9 +3,8 @@
 window.onload = onInit
 
 function onInit() {
-    initMemes()
     initGallery()
-    initCanvas()
+    initEditor()
     initListeners()
     // onShowEditor()
 }
@@ -166,7 +165,7 @@ function onRemove() {
 
 function onClear() {
     renderInputLineText()
-    clearMeme()
+    clearCanvas()
     clearCanvas()
 }
 
