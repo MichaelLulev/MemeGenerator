@@ -7,7 +7,7 @@ function onInit() {
     initGallery()
     initCanvas()
     initListeners()
-    onShowEditor()
+    // onShowEditor()
 }
 
 function initListeners() {
