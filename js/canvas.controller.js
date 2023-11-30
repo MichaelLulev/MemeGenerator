@@ -7,7 +7,7 @@ var gElCanvas
 var gCanvas
 
 function initCanvas() {
-    gElCanvas = $('canvas.meme')[0]
+    gElCanvas = el('canvas.meme')[0]
     gCanvas = gElCanvas.getContext('2d')
 }
 

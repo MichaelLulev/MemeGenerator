@@ -10,5 +10,5 @@ function renderGallery() {
         strHtml += `
         <img src="img/gallery/${i}.jpg" alt="meme-image-${i}">`
     }
-    $('.gallery .image-container').html(strHtml)
+    el('.gallery .image-container').html(strHtml)
 }
