@@ -16,10 +16,16 @@ function initListeners() {
     el('.main-gallery .search-cloud .tag').on('click', onFilterImageByTag)
     el('.main-gallery img').on('click', onSelectImage)
     el('.main-editor form').on('submit', onSubmitText)
-    el('.main-editor canvas').on('click', onSelectWithMouse)
+    el('body').on('mousedown', onDeselectWithMouse)
+    el('.main-editor .controls .control-row *').on('mousedown', onDoNotDeselect)
+    el('.main-editor canvas').on('mousedown', onSelectWithMouse)
+    el('.main-editor canvas').on('mousemove', onMoveWithMouse)
+    el('.main-editor canvas').on('mouseup', onStopMovingWithMouse)
+    el('.main-editor canvas').on('mouseout', onStopMovingWithMouse)
+    el('body').on('click', onClickWithMouse)
     el('.main-editor input.line-text').on('input', onInputLineText)
     el('.main-editor button.select-next').on('click', onSelectNextTextLine)
-    el('.main-editor button.deselect').on('click', onDeselectTextLine)
+    el('.main-editor button.deselect').on('click', onDeselectElement)
     el('.main-editor button.justify-left').on('click', onJustifyLeft)
     el('.main-editor button.justify-center').on('click', onJustifyCenter)
     el('.main-editor button.justify-right').on('click', onJustifyRight)
@@ -68,12 +74,39 @@ function onSelectImage(ev) {
     onShowEditor()
 }
 
+function onDeselectWithMouse() {
+    deselectElement()
+    renderInputs()
+    redrawCanvas()
+}
+
+function onDoNotDeselect(ev) {
+    ev.stopPropagation()
+}
+
 function onSelectWithMouse(ev) {
+    ev.stopPropagation()
     const mouseX = ev.offsetX
     const mouseY = ev.offsetY
-    const selectedTextLine = selectElementByBoundingBox(mouseX, mouseY)
-    renderInputs(selectedTextLine)
+    const selectedElement = selectElementByBoundingBox(mouseX, mouseY)
+    renderInputs(selectedElement)
     redrawCanvas()
+}
+
+function onMoveWithMouse(ev) {
+    const mouseX = ev.offsetX
+    const mouseY = ev.offsetY
+    moveElement(mouseX, mouseY)
+    redrawCanvas()
+}
+
+function onStopMovingWithMouse() {
+    stopMovingElement()
+}
+
+function onClickWithMouse() {
+    const selectElement = getSelectedElement()
+    renderInputs(selectElement)
 }
 
 function renderInputLineText(selectedTextLine) {
@@ -129,7 +162,7 @@ function renderInputs(selectedElement) {
     renderInputColor(selectedElement)
 }
 
-function onDeselectTextLine() {
+function onDeselectElement() {
     deselectElement()
     redrawCanvas()
 }

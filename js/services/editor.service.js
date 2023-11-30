@@ -23,6 +23,9 @@ var gCurrMeme
 var gSelectedElement
 var nextElementId
 
+var prevX
+var prevY
+
 function initEditor() {
     nextElementId = 1
     clearMeme()
@@ -52,15 +55,37 @@ function selectElement(element) {
     gSelectedElement = element
 }
 
-function selectElementByBoundingBox(x, y) {
+function selectElementByBoundingBox(currX, currY) {
     const elementToSelect = gCurrMeme.elements.find(el => {
         const { leftX, rightX, topY, bottomY } = el.pos
-        return checkInBox(x, y, leftX, rightX, topY, bottomY)
+        return checkInBox(currX, currY, leftX, rightX, topY, bottomY)
     })
     if (elementToSelect) {
         selectElement(elementToSelect)
     } else deselectElement()
+    prevX = currX
+    prevY = currY
     return elementToSelect
+}
+
+function moveElement(currX, currY) {
+    if (! gSelectedElement || ! prevX || ! prevY) return
+    const diffX = currX - prevX
+    const diffY = currY - prevY
+    const pos = gSelectedElement.pos
+    pos.x += diffX
+    pos.y += diffY
+    pos.leftX += diffX
+    pos.rightX += diffX
+    pos.topY += diffY
+    pos.bottomY += diffY
+    prevX = currX
+    prevY = currY
+}
+
+function stopMovingElement() {
+    prevX = undefined
+    prevY = undefined
 }
 
 function addTextLine(text, strokeColor, fillColor) {
