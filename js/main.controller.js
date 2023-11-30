@@ -32,6 +32,7 @@ function initListeners() {
     $('main.editor input.fill-color').on('change', onChangeFillColor)
     $('main.editor button.remove').on('click', onRemove)
     $('main.editor button.clear').on('click', onClear)
+    $('main.editor a[download]').on('click', onDownloadImage)
     $('div.about .close').on('click', onCloseAbout)
 }
 
@@ -55,7 +56,7 @@ function onSelectTextLine(ev) {
     const mouseX = ev.offsetX
     const mouseY = ev.offsetY
     const selectedTextLine = selectElementByBoundingBox(mouseX, mouseY)
-    renderInputLineText(selectedTextLine)
+    renderInputColor(selectedTextLine)
     redrawCanvas()
 }
 
@@ -68,6 +69,13 @@ function renderInputLineText(selectedTextLine) {
         $('main.editor input.line-text')
             .val('')
             .blur()
+    }
+}
+
+function renderInputColor(selectedTextLine) {
+    if (selectedTextLine) {
+        $('main.editor input.stroke-color').val(selectedTextLine.strokeColor)
+        $('main.editor input.fill-color').val(selectedTextLine.fillColor)
     }
 }
 
@@ -96,8 +104,13 @@ function onAddTextLine() {
 
 function onSelectNextTextLine() {
     const selectedTextLine = selectNextTextLine()
-    renderInputLineText(selectedTextLine)
+    renderInputs(selectedTextLine)
     redrawCanvas()
+}
+
+function renderInputs(selectedElement) {
+    renderInputLineText(selectedElement)
+    renderInputColor(selectedElement)
 }
 
 function onDeselectTextLine() {
@@ -175,4 +188,10 @@ function onToggleAbout() {
 
 function onCloseAbout() {
     $('div.about').addClass('hidden')
+}
+
+function onDownloadImage(ev) {
+    const imgContent = gElCanvas.toDataURL('image/png')
+    const elLink = ev.target
+    elLink.href = imgContent
 }
