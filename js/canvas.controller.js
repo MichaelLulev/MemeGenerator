@@ -41,8 +41,9 @@ function drawText(line) {
     gCanvas.fillStyle = isSelected ? 'red' : fillColor
     gCanvas.strokeStyle = isSelected ? 'red' : strokeColor
     gCanvas.lineWidth = DEFAULT_LINE_WIDTH
-    if (! pos.x || ! pos.y) {
+    if (! pos.x || ! pos.y || ! pos.width) {
         const textWidth = gCanvas.measureText(upperCaseText).width
+        pos.width = textWidth
         switch (justify) {
             case JUSTIFY_LEFT:
                 pos.x = 0
@@ -65,6 +66,10 @@ function drawText(line) {
                 pos.y = gElCanvas.height - fontSize
                 break
         }
+        pos.leftX = pos.x
+        pos.rightX = pos.x + pos.width
+        pos.topY = pos.y
+        pos.bottomY = pos.y + fontSize
     }
     gCanvas.strokeText(upperCaseText, pos.x, pos.y + fontSize)
     gCanvas.fillText(upperCaseText, pos.x, pos.y + fontSize)

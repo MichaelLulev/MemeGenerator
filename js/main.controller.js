@@ -16,6 +16,7 @@ function initListeners() {
     $('header nav .about').on('click', onToggleAbout)
     $('main.gallery img').on('click', onSelectImage)
     $('main.editor form').on('submit', onSubmitText)
+    $('main.editor canvas').on('click', onSelectTextLine)
     $('main.editor input.line-text').on('input', onInputLineText)
     $('main.editor button.select').on('click', onSelectNextTextLine)
     $('main.editor button.deselect').on('click', onDeselectTextLine)
@@ -46,6 +47,13 @@ function onSelectImage(ev) {
     onShowEditor()
 }
 
+function onSelectTextLine(ev) {
+    const mouseX = ev.offsetX
+    const mouseY = ev.offsetY
+    selectElementByBoundingBox(mouseX, mouseY)
+    redrawCanvas()
+}
+
 function onSubmitText(ev) {
     ev.preventDefault()
     const selectedTextLine = getSelectedTextLine()
@@ -56,11 +64,9 @@ function onSubmitText(ev) {
 }
 
 function onInputLineText() {
-    const selectedTextLine = getSelectedTextLine()
-    if (selectedTextLine) {
-        selectedTextLine.text = $('main.editor input.line-text').val()
-        redrawCanvas()
-    }
+    const lineText = $('main.editor input.line-text').val()
+    updateTextLine(lineText)
+    redrawCanvas()
 }
 
 function onAddTextLine() {

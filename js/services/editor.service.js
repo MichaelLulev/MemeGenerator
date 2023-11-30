@@ -42,9 +42,31 @@ function getSelectedTextLine() {
     return gSelectedTextLine
 }
 
+function selectTextLine(textLine) {
+    deselectTextLine()
+    textLine.isSelected = true
+    gSelectedTextLine = textLine
+}
+
+function selectElementByBoundingBox(x, y) {
+    const elementToSelect = gCurrMeme.elements.find(el => {
+        const { leftX, rightX, topY, bottomY } = el.pos
+        return checkInBox(x, y, leftX, rightX, topY, bottomY)
+    })
+    if (elementToSelect) {
+        selectTextLine(elementToSelect)
+    } else deselectTextLine()
+}
+
 function addText(text, strokeColor, fillColor) {
     const textLine = _createTextLine(text, undefined, undefined, strokeColor, fillColor)
     gCurrMeme.elements.push(textLine)
+}
+
+function updateTextLine(lineText) {
+    if (gSelectedTextLine) {
+        gSelectedTextLine.text = lineText
+    }
 }
 
 function selectNextTextLine() {

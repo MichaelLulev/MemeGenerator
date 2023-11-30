@@ -1,5 +1,9 @@
 'use strict'
 
+function checkInBox(x, y, leftX, rightX, topY, bottomY) {
+    return leftX <= x && x <= rightX && topY <= y && y <= bottomY
+}
+
 function log(...args) {
     args = args.map(arg => JSON.stringify(arg, null, 4))
     console.log(...args)
