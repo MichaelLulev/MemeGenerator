@@ -16,7 +16,7 @@ function initListeners() {
     $('header nav .about').on('click', onToggleAbout)
     $('main.gallery img').on('click', onSelectImage)
     $('main.editor form').on('submit', onSubmitText)
-    $('main.editor canvas').on('mousedown', onSelectTextLine)
+    $('main.editor canvas').on('click', onSelectTextLine)
     $('main.editor input.line-text').on('input', onInputLineText)
     $('main.editor button.select-next').on('click', onSelectNextTextLine)
     $('main.editor button.deselect').on('click', onDeselectTextLine)
@@ -28,8 +28,9 @@ function initListeners() {
     $('main.editor button.align-bottom').on('click', onAlignBottom)
     $('main.editor button.increase').on('click', onIncreaseFont)
     $('main.editor button.decrease').on('click', onDecreaseFont)
-    $('main.editor button.stroke-color').on('change', onChangeStrokeColor)
-    $('main.editor button.fill-color').on('change', onChangeFillColor)
+    $('main.editor input.stroke-color').on('change', onChangeStrokeColor)
+    $('main.editor input.fill-color').on('change', onChangeFillColor)
+    $('main.editor button.remove').on('click', onRemove)
     $('main.editor button.clear').on('click', onClear)
     $('div.about .close').on('click', onCloseAbout)
 }
@@ -72,8 +73,8 @@ function renderInputLineText(selectedTextLine) {
 
 function onSubmitText(ev) {
     ev.preventDefault()
-    const selectedTextLine = getSelectedTextLine()
-    if (selectedTextLine) deselectTextLine()
+    const selectedTextLine = getSelectedElement()
+    if (selectedTextLine) deselectElement()
     else onAddTextLine()
     renderInputLineText()
     redrawCanvas()
@@ -89,7 +90,7 @@ function onAddTextLine() {
     const text = $('input.line-text').val()
     const strokeColor = $('input.stroke-color').val()
     const fillColor = $('input.fill-color').val()
-    addText(text, strokeColor, fillColor)
+    addTextLine(text, strokeColor, fillColor)
     redrawCanvas()
 }
 
@@ -100,7 +101,7 @@ function onSelectNextTextLine() {
 }
 
 function onDeselectTextLine() {
-    deselectTextLine()
+    deselectElement()
     redrawCanvas()
 }
 
@@ -141,6 +142,12 @@ function onIncreaseFont() {
 
 function onDecreaseFont() {
     changeFontSize(DECREASE_AMOUNT)
+    redrawCanvas()
+}
+
+function onRemove() {
+    const element = getSelectedElement()
+    if (element) removeElementById(element.id)
     redrawCanvas()
 }
 

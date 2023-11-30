@@ -20,9 +20,11 @@ const INCREASE_AMOUNT = 1
 const DECREASE_AMOUNT = -1
 
 var gCurrMeme
-var gSelectedTextLine
+var gSelectedElement
+var nextElementId
 
 function initMemes() {
+    nextElementId = 1
     clearMeme()
 }
 
@@ -36,17 +38,17 @@ function getCurrMeme() {
 
 function clearMeme() {
     gCurrMeme = _createMeme()
-    deselectTextLine()
+    deselectElement()
 }
 
-function getSelectedTextLine() {
-    return gSelectedTextLine
+function getSelectedElement() {
+    return gSelectedElement
 }
 
-function selectTextLine(textLine) {
-    deselectTextLine()
-    textLine.isSelected = true
-    gSelectedTextLine = textLine
+function selectElement(element) {
+    deselectElement()
+    element.isSelected = true
+    gSelectedElement = element
 }
 
 function selectElementByBoundingBox(x, y) {
@@ -55,20 +57,29 @@ function selectElementByBoundingBox(x, y) {
         return checkInBox(x, y, leftX, rightX, topY, bottomY)
     })
     if (elementToSelect) {
-        selectTextLine(elementToSelect)
-    } else deselectTextLine()
+        selectElement(elementToSelect)
+    } else deselectElement()
     return elementToSelect
 }
 
-function addText(text, strokeColor, fillColor) {
+function addTextLine(text, strokeColor, fillColor) {
     const textLine = _createTextLine(text, undefined, undefined, strokeColor, fillColor)
     gCurrMeme.elements.push(textLine)
 }
 
 function updateTextLine(lineText) {
-    if (gSelectedTextLine) {
-        gSelectedTextLine.pos = {}
-        gSelectedTextLine.text = lineText
+    if (gSelectedElement) {
+        gSelectedElement.pos = {}
+        gSelectedElement.text = lineText
+    }
+}
+
+function removeElementById(id) {
+    const idx = gCurrMeme.elements.findIndex(el => el.id === id)
+    if (idx !== -1) {
+        const element = gCurrMeme.elements[idx]
+        if (element.isSelected) deselectElement()
+        gCurrMeme.elements.splice(idx, 1)
     }
 }
 
@@ -82,45 +93,45 @@ function selectNextTextLine() {
     const nextTextLine = restElements.find(el => el.type === TYPE_TEXT_LINE)
     if (nextTextLine) {
         nextTextLine.isSelected = true
-        gSelectedTextLine = nextTextLine
-    } else gSelectedTextLine = undefined
-    return gSelectedTextLine
+        gSelectedElement = nextTextLine
+    } else gSelectedElement = undefined
+    return gSelectedElement
 }
 
-function deselectTextLine() {
-    if (gSelectedTextLine) {
-        gSelectedTextLine.isSelected = false
-        gSelectedTextLine = undefined
+function deselectElement() {
+    if (gSelectedElement) {
+        gSelectedElement.isSelected = false
+        gSelectedElement = undefined
     }
 }
 
 function justifyTextLine(justifySide) {
-    if (gSelectedTextLine) {
-        gSelectedTextLine.pos = {}
-        gSelectedTextLine.justify = justifySide
+    if (gSelectedElement) {
+        gSelectedElement.pos = {}
+        gSelectedElement.justify = justifySide
     }
 }
 
 function alignTextLine(alignSide) {
-    if (gSelectedTextLine) {
-        gSelectedTextLine.pos = {}
-        gSelectedTextLine.align = alignSide
+    if (gSelectedElement) {
+        gSelectedElement.pos = {}
+        gSelectedElement.align = alignSide
     }
 }
 
 function changeFontSize(changeAmount) {
-    if (gSelectedTextLine) {
-        gSelectedTextLine.pos = {}
-        gSelectedTextLine.fontSize += changeAmount
+    if (gSelectedElement) {
+        gSelectedElement.pos = {}
+        gSelectedElement.fontSize += changeAmount
     }
 }
 
 function changeStrokeColor(color) {
-    if (gSelectedTextLine) gSelectedTextLine.strokeColor = color
+    if (gSelectedElement) gSelectedElement.strokeColor = color
 }
 
 function changeFillColor(color) {
-    if (gSelectedTextLine) gSelectedTextLine.fillColor = color
+    if (gSelectedElement) gSelectedElement.fillColor = color
 }
 
 function _createMeme(image) {
@@ -148,6 +159,7 @@ function _createTextLine(text, font, fontSize, strokeColor, fillColor, justify, 
     if (! pos) pos = {}
     const textLine = {
         type: TYPE_TEXT_LINE,
+        id: nextElementId++,
         text,
         font,
         fontSize,
