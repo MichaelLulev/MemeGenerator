@@ -153,11 +153,13 @@ function onClear() {
 function onChangeStrokeColor(ev) {
     const color = ev.target.value
     changeStrokeColor(color)
+    redrawCanvas()
 }
 
 function onChangeFillColor(ev) {
     const color = ev.target.value
     changeFillColor(color)
+    redrawCanvas()
 }
 
 function onToggleAbout() {
