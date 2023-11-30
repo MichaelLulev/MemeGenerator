@@ -13,37 +13,37 @@ function initListeners() {
     el('header nav .editor').on('click', onShowEditor)
     el('header nav .gallery').on('click', onShowGallery)
     el('header nav .about').on('click', onToggleAbout)
-    el('main.gallery .search input[type="text"]').on('change', onFilterImages)
-    el('main.gallery img').on('click', onSelectImage)
-    el('main.editor form').on('submit', onSubmitText)
-    el('main.editor canvas').on('click', onSelectWithMouse)
-    el('main.editor input.line-text').on('input', onInputLineText)
-    el('main.editor button.select-next').on('click', onSelectNextTextLine)
-    el('main.editor button.deselect').on('click', onDeselectTextLine)
-    el('main.editor button.justify-left').on('click', onJustifyLeft)
-    el('main.editor button.justify-center').on('click', onJustifyCenter)
-    el('main.editor button.justify-right').on('click', onJustifyRight)
-    el('main.editor button.align-top').on('click', onAlignTop)
-    el('main.editor button.align-center').on('click', onAlignCenter)
-    el('main.editor button.align-bottom').on('click', onAlignBottom)
-    el('main.editor button.increase').on('click', onIncreaseFont)
-    el('main.editor button.decrease').on('click', onDecreaseFont)
-    el('main.editor input.stroke-color').on('change', onChangeStrokeColor)
-    el('main.editor input.fill-color').on('change', onChangeFillColor)
-    el('main.editor button.remove').on('click', onRemove)
-    el('main.editor button.clear').on('click', onClear)
-    el('main.editor a[download]').on('click', onDownloadImage)
-    el('div.about .close').on('click', onCloseAbout)
+    el('.main-gallery .search input[type="text"]').on('change', onFilterImages)
+    el('.main-gallery img').on('click', onSelectImage)
+    el('.main-editor form').on('submit', onSubmitText)
+    el('.main-editor canvas').on('click', onSelectWithMouse)
+    el('.main-editor input.line-text').on('input', onInputLineText)
+    el('.main-editor button.select-next').on('click', onSelectNextTextLine)
+    el('.main-editor button.deselect').on('click', onDeselectTextLine)
+    el('.main-editor button.justify-left').on('click', onJustifyLeft)
+    el('.main-editor button.justify-center').on('click', onJustifyCenter)
+    el('.main-editor button.justify-right').on('click', onJustifyRight)
+    el('.main-editor button.align-top').on('click', onAlignTop)
+    el('.main-editor button.align-center').on('click', onAlignCenter)
+    el('.main-editor button.align-bottom').on('click', onAlignBottom)
+    el('.main-editor button.increase').on('click', onIncreaseFont)
+    el('.main-editor button.decrease').on('click', onDecreaseFont)
+    el('.main-editor input.stroke-color').on('change', onChangeStrokeColor)
+    el('.main-editor input.fill-color').on('change', onChangeFillColor)
+    el('.main-editor button.remove').on('click', onRemove)
+    el('.main-editor button.clear').on('click', onClear)
+    el('.main-editor a[download]').on('click', onDownloadImage)
+    el('.main-about .close').on('click', onCloseAbout)
 }
 
 function onShowEditor() {
-    el('main.editor').removeClass('hidden')
-    el('main.gallery').addClass('hidden')
+    el('.main-editor').removeClass('hidden')
+    el('.main-gallery').addClass('hidden')
 }
 
 function onShowGallery() {
-    el('main.editor').addClass('hidden')
-    el('main.gallery').removeClass('hidden')
+    el('.main-editor').addClass('hidden')
+    el('.main-gallery').removeClass('hidden')
 }
 
 function onFilterImages(ev) {
@@ -69,11 +69,11 @@ function onSelectWithMouse(ev) {
 
 function renderInputLineText(selectedTextLine) {
     if (selectedTextLine) {
-        el('main.editor input.line-text')
+        el('.main-editor input.line-text')
             .val(selectedTextLine.text)
             .focus()
     } else {
-        el('main.editor input.line-text')
+        el('.main-editor input.line-text')
             .val('')
             .blur()
     }
@@ -81,8 +81,8 @@ function renderInputLineText(selectedTextLine) {
 
 function renderInputColor(selectedTextLine) {
     if (selectedTextLine) {
-        el('main.editor input.stroke-color').val(selectedTextLine.strokeColor)
-        el('main.editor input.fill-color').val(selectedTextLine.fillColor)
+        el('.main-editor input.stroke-color').val(selectedTextLine.strokeColor)
+        el('.main-editor input.fill-color').val(selectedTextLine.fillColor)
     }
 }
 
@@ -96,7 +96,7 @@ function onSubmitText(ev) {
 }
 
 function onInputLineText() {
-    const lineText = el('main.editor input.line-text').val()
+    const lineText = el('.main-editor input.line-text').val()
     updateTextLine(lineText)
     redrawCanvas()
 }
@@ -191,11 +191,11 @@ function onChangeFillColor(ev) {
 }
 
 function onToggleAbout() {
-    el('div.about').toggleClass('hidden')
+    el('.main-about').toggleClass('hidden')
 }
 
 function onCloseAbout() {
-    el('div.about').addClass('hidden')
+    el('.main-about').addClass('hidden')
 }
 
 function onDownloadImage(ev) {

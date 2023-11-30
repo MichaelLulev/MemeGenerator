@@ -19,7 +19,7 @@ function renderSearhCloud() {
         strHtml += `
             <span style="font-size: ${fontSize}rem;">${word}</span>`
     }
-    el('main.gallery .search-cloud').html(strHtml)
+    el('.search-cloud').html(strHtml)
 }
 
 function renderGallery() {
@@ -31,5 +31,5 @@ function renderGallery() {
             </div>`
     }, '')
     if (! strHtml) strHtml = 'Didn\'t find any images'
-    el('.gallery .gallery-layout').html(strHtml)
+    el('.gallery-layout').html(strHtml)
 }
