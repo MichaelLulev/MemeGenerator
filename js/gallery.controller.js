@@ -27,7 +27,9 @@ function renderGallery() {
     var strHtml = images.reduce((strHtml, image) => {
         return strHtml + `
             <div class="image-container">
-                <img src="img/gallery/${image.name}" alt="meme-image-${image.name}">
+                <img src="img/gallery/${image.name}"
+                     alt="meme-image-${image.name}"
+                     title="${image.searchTags.join(', ')}">
             </div>`
     }, '')
     if (! strHtml) strHtml = 'Didn\'t find any images'
