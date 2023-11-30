@@ -7,9 +7,10 @@ function initGallery() {
 
 function renderGallery() {
     const images = getImages()
-    const strHtml = images.reduce((strHtml, image) => {
+    var strHtml = images.reduce((strHtml, image) => {
         return strHtml + `
         <img src="img/gallery/${image.name}" alt="meme-image-${image.name}">`
     }, '')
+    if (! strHtml) strHtml = 'Didn\'t find any images'
     el('.gallery .image-container').html(strHtml)
 }

@@ -13,6 +13,7 @@ function initListeners() {
     el('header nav .editor').on('click', onShowEditor)
     el('header nav .gallery').on('click', onShowGallery)
     el('header nav .about').on('click', onToggleAbout)
+    el('main.gallery .search input[type="text"]').on('change', onFilterImages)
     el('main.gallery img').on('click', onSelectImage)
     el('main.editor form').on('submit', onSubmitText)
     el('main.editor canvas').on('click', onSelectWithMouse)
@@ -43,6 +44,11 @@ function onShowEditor() {
 function onShowGallery() {
     el('main.editor').addClass('hidden')
     el('main.gallery').removeClass('hidden')
+}
+
+function onFilterImages(ev) {
+    filterImages(ev.target.value)
+    renderGallery()
 }
 
 function onSelectImage(ev) {
