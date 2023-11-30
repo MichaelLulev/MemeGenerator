@@ -2,8 +2,8 @@
 
 const DEFAULT_FONT = 'Impact'
 const DEFAULT_FONT_SIZE = 40
-const DEFAULT_STROKE_COLOR = 'black'
-const DEFAULT_FILL_COLOR = 'white'
+const DEFAULT_STROKE_COLOR = '#000000'
+const DEFAULT_FILL_COLOR = '#ffffff'
 const DEFAULT_LINE_WIDTH = 4
 
 const TYPE_TEXT_LINE = 'textLine'
@@ -24,9 +24,8 @@ var gSelectedElement
 var nextElementId
 
 function initEditor() {
-    gCurrMeme = _createMeme()
-    gSelectedElement = undefined
     nextElementId = 1
+    clearMeme()
     initCanvas()
 }
 
@@ -38,7 +37,7 @@ function getCurrMeme() {
     return gCurrMeme
 }
 
-function clearCanvas() {
+function clearMeme() {
     gCurrMeme = _createMeme()
     deselectElement()
 }
@@ -146,16 +145,15 @@ function _createMeme(image) {
 }
 
 function _createTextLine(text, font, fontSize, strokeColor, fillColor, justify, align, pos) {
-    const numOfTextLines = gCurrMeme.elements.filter(el => el.type === TYPE_TEXT_LINE).length
-    if (! text) text = 'Text Line ' + (numOfTextLines + 1)
+    if (! text) text = 'Text Line ' + nextElementId
     if (! font) font = DEFAULT_FONT
     if (! fontSize) fontSize = DEFAULT_FONT_SIZE
     if (! strokeColor) strokeColor = DEFAULT_STROKE_COLOR
     if (! fillColor) fillColor = DEFAULT_FILL_COLOR
     if (! justify) justify = JUSTIFY_CENTER
     if (! align) {
-        if (numOfTextLines === 0) align = ALIGN_TOP
-        else if (numOfTextLines === 1) align = ALIGN_BOTTOM
+        if (nextElementId === 1) align = ALIGN_TOP
+        else if (nextElementId === 2) align = ALIGN_BOTTOM
         else align = ALIGN_CENTER
     }
     if (! pos) pos = {}

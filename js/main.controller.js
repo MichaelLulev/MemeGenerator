@@ -167,12 +167,13 @@ function onDecreaseFont() {
 function onRemove() {
     const element = getSelectedElement()
     if (element) removeElementById(element.id)
+    renderInputs()
     redrawCanvas()
 }
 
 function onClear() {
-    renderInputLineText()
-    clearCanvas()
+    renderInputs()
+    initEditor()
     clearCanvas()
 }
 

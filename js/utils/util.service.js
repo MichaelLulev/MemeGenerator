@@ -11,11 +11,6 @@ function el(selector) {
             elements.forEach(el => el.addEventListener(event, handler))
             return el(elements)
         },
-        html: strHtml => {
-            if (strHtml === undefined) return elements.innerHTML
-            elements.forEach(el => el.innerHTML = strHtml)
-            return el(elements)
-        },
         addClass: strClass => {
             elements.forEach(el => el.classList.add(strClass))
             return el(elements)
@@ -29,8 +24,13 @@ function el(selector) {
             return el(elements)
         },
         val: value => {
-            if (value === undefined) return elements.value
+            if (value === undefined) return elements[0].value
             elements.forEach(el => el.value = value)
+            return el(elements)
+        },
+        html: strHtml => {
+            if (strHtml === undefined) return elements[0].innerHTML
+            elements.forEach(el => el.innerHTML = strHtml)
             return el(elements)
         },
         blur: () => {

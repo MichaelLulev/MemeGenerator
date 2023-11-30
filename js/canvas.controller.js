@@ -75,9 +75,12 @@ function drawText(line) {
     gCanvas.strokeText(upperCaseText, pos.x, pos.y + fontSize)
     gCanvas.fillText(upperCaseText, pos.x, pos.y + fontSize)
     if (isSelected) {
-        gCanvas.strokeStyle = 'black'
         gCanvas.lineWidth = 2
-        gCanvas.rect(pos.leftX - 2, pos.topY + 4, pos.width + 2, pos.height)
-        gCanvas.stroke()
+        gCanvas.strokeStyle = 'white'
+        gCanvas.strokeRect(pos.leftX - 2, pos.topY + 4, pos.width + 2, pos.height)
+        gCanvas.strokeStyle = 'black'
+        gCanvas.setLineDash([5, 5])
+        gCanvas.strokeRect(pos.leftX - 2, pos.topY + 4, pos.width + 2, pos.height)
+        gCanvas.setLineDash([])
     }
 }
