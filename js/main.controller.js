@@ -53,6 +53,7 @@ function onFilterImages(ev) {
 }
 
 function onSelectImage(ev) {
+    initEditor()
     createMeme(ev.target)
     redrawCanvas()
     onShowEditor()
