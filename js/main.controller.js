@@ -6,7 +6,6 @@ function onInit() {
     initGallery()
     initEditor()
     initListeners()
-    // onShowEditor()
 }
 
 function initListeners() {
@@ -14,6 +13,7 @@ function initListeners() {
     el('header nav .gallery').on('click', onShowGallery)
     el('header nav .about').on('click', onToggleAbout)
     el('.main-gallery .search input[type="text"]').on('change', onFilterImages)
+    el('.main-gallery .search-cloud .tag').on('click', onFilterImageByTag)
     el('.main-gallery img').on('click', onSelectImage)
     el('.main-editor form').on('submit', onSubmitText)
     el('.main-editor canvas').on('click', onSelectWithMouse)
@@ -50,9 +50,18 @@ function onFilterImages(ev) {
     filterImages(ev.target.value)
     renderSearhCloud()
     renderGallery()
+    el('.main-gallery img').on('click', onSelectImage)
+}
+
+function onFilterImageByTag(ev) {
+    const elInput = el('.main-gallery .search input[type="text"]')
+        .val(ev.target.innerText)[0]
+    elInput.dispatchEvent(new Event('change'))
+    el('.main-gallery .search-cloud .tag').on('click', onFilterImageByTag)
 }
 
 function onSelectImage(ev) {
+    console.log(ev)
     initEditor()
     createMeme(ev.target)
     redrawCanvas()

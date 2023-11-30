@@ -17,7 +17,7 @@ function renderSearhCloud() {
     for (let [word, numSearches] of Object.entries(searchCloud)) {
         const fontSize = numSearches / maxSearches * (MAX_FONT_SIZE - MIN_FONT_SIZE) + MIN_FONT_SIZE
         strHtml += `
-            <span style="font-size: ${fontSize}rem;">${word}</span>`
+            <span class="tag" style="font-size: ${fontSize}rem;">${word}</span>`
     }
     el('.search-cloud').html(strHtml)
 }
