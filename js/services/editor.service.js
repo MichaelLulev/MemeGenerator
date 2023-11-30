@@ -38,8 +38,12 @@ function clearMeme() {
     gCurrMeme = _createMeme()
 }
 
-function addText(text) {
-    const textLine = _createTextLine(text)
+function getSelectedTextLine() {
+    return gSelectedTextLine
+}
+
+function addText(text, strokeColor, fillColor) {
+    const textLine = _createTextLine(text, undefined, undefined, strokeColor, fillColor)
     gCurrMeme.elements.push(textLine)
 }
 
@@ -55,6 +59,7 @@ function selectNextTextLine() {
         nextTextLine.isSelected = true
         gSelectedTextLine = nextTextLine
     } else gSelectedTextLine = undefined
+    return gSelectedTextLine
 }
 
 function deselectTextLine() {
@@ -65,11 +70,17 @@ function deselectTextLine() {
 }
 
 function justifyTextLine(justifySide) {
-    if (gSelectedTextLine) gSelectedTextLine.justify = justifySide
+    if (gSelectedTextLine) {
+        gSelectedTextLine.pos = {}
+        gSelectedTextLine.justify = justifySide
+    }
 }
 
 function changeFontSize(changeAmount) {
-    if (gSelectedTextLine) gSelectedTextLine.fontSize += changeAmount
+    if (gSelectedTextLine) {
+        gSelectedTextLine.pos = {}
+        gSelectedTextLine.fontSize += changeAmount
+    }
 }
 
 function changeStrokeColor(color) {
@@ -89,9 +100,9 @@ function _createMeme(image) {
     return meme
 }
 
-function _createTextLine(text, font, fontSize, strokeColor, fillColor, justify, align) {
+function _createTextLine(text, font, fontSize, strokeColor, fillColor, justify, align, pos) {
     const numOfTextLines = gCurrMeme.elements.filter(el => el.type === TYPE_TEXT_LINE).length
-    if (! text) text = 'Text Line'
+    if (! text) text = 'Text Line ' + (numOfTextLines + 1)
     if (! font) font = DEFAULT_FONT
     if (! fontSize) fontSize = DEFAULT_FONT_SIZE
     if (! strokeColor) strokeColor = DEFAULT_STROKE_COLOR
@@ -102,6 +113,7 @@ function _createTextLine(text, font, fontSize, strokeColor, fillColor, justify, 
         else if (numOfTextLines === 1) align = ALIGN_BOTTOM
         else align = ALIGN_CENTER
     }
+    if (! pos) pos = {}
     const textLine = {
         type: TYPE_TEXT_LINE,
         text,
@@ -111,6 +123,7 @@ function _createTextLine(text, font, fontSize, strokeColor, fillColor, justify, 
         fillColor,
         justify,
         align,
+        pos,
         isSelected: false,
     }
     return textLine

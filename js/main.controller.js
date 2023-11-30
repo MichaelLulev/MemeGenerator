@@ -15,7 +15,8 @@ function initListeners() {
     $('header nav .gallery').on('click', onShowGallery)
     $('header nav .about').on('click', onToggleAbout)
     $('main.gallery img').on('click', onSelectImage)
-    $('main.editor button.add-line').on('click', onAddLine)
+    $('main.editor form').on('submit', onSubmitText)
+    $('main.editor input.line-text').on('input', onInputLineText)
     $('main.editor button.select').on('click', onSelectNextTextLine)
     $('main.editor button.deselect').on('click', onDeselectTextLine)
     $('main.editor button.justify-left').on('click', onJustifyLeft)
@@ -45,19 +46,41 @@ function onSelectImage(ev) {
     onShowEditor()
 }
 
+function onSubmitText(ev) {
+    ev.preventDefault()
+    const selectedTextLine = getSelectedTextLine()
+    if (selectedTextLine) deselectTextLine()
+    else onAddTextLine()
+    $('main.editor input.line-text').val('').blur()
+    redrawCanvas()
+}
+
+function onInputLineText() {
+    const selectedTextLine = getSelectedTextLine()
+    if (selectedTextLine) {
+        selectedTextLine.text = $('main.editor input.line-text').val()
+        redrawCanvas()
+    }
+}
+
+function onAddTextLine() {
+    const text = $('input.line-text').val()
+    const strokeColor = $('input.stroke-color').val()
+    const fillColor = $('input.fill-color').val()
+    addText(text, strokeColor, fillColor)
+    redrawCanvas()
+}
+
 function onSelectNextTextLine() {
-    selectNextTextLine()
+    const selectedTextLine = selectNextTextLine()
+    if (selectedTextLine) {
+        $('main.editor input.line-text').val(selectedTextLine.text)
+    }
     redrawCanvas()
 }
 
 function onDeselectTextLine() {
     deselectTextLine()
-    redrawCanvas()
-}
-
-function onAddLine() {
-    const text = $('input.line-text').val()
-    addText(text)
     redrawCanvas()
 }
 

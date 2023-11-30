@@ -34,36 +34,38 @@ function drawImage(image) {
 }
 
 function drawText(line) {
-    const { text, font, fontSize, strokeColor, fillColor, justify, align, isSelected } = line
+    const { text, font, fontSize, strokeColor, fillColor, justify, align, pos, isSelected } = line
     const upperCaseText = text.toUpperCase()
     gCanvas.beginPath()
     gCanvas.font = `${fontSize}px ${font}`
     gCanvas.fillStyle = isSelected ? 'red' : fillColor
     gCanvas.strokeStyle = isSelected ? 'red' : strokeColor
     gCanvas.lineWidth = DEFAULT_LINE_WIDTH
-    const textWidth = gCanvas.measureText(upperCaseText).width
-    switch (justify) {
-        case JUSTIFY_LEFT:
-            var x = 0
-            break
-        case JUSTIFY_CENTER:
-            var x = gElCanvas.width / 2 - textWidth / 2
-            break
-        case JUSTIFY_RIGHT:
-            var x = gElCanvas.width - textWidth
-            break
+    if (! pos.x || ! pos.y) {
+        const textWidth = gCanvas.measureText(upperCaseText).width
+        switch (justify) {
+            case JUSTIFY_LEFT:
+                pos.x = 0
+                break
+            case JUSTIFY_CENTER:
+                pos.x = gElCanvas.width / 2 - textWidth / 2
+                break
+            case JUSTIFY_RIGHT:
+                pos.x = gElCanvas.width - textWidth
+                break
+        }
+        switch (align) {
+            case ALIGN_TOP:
+                pos.y = 0
+                break
+            case ALIGN_CENTER:
+                pos.y = gElCanvas.height / 2 - fontSize / 2
+                break
+            case ALIGN_BOTTOM:
+                pos.y = gElCanvas.height - fontSize
+                break
+        }
     }
-    switch (align) {
-        case ALIGN_TOP:
-            var y = 0
-            break
-        case ALIGN_CENTER:
-            var y = gElCanvas.height / 2 - fontSize / 2
-            break
-        case ALIGN_BOTTOM:
-            var y = gElCanvas.height - fontSize
-            break
-    }
-    gCanvas.strokeText(upperCaseText, x, y + fontSize)
-    gCanvas.fillText(upperCaseText, x, y + fontSize)
+    gCanvas.strokeText(upperCaseText, pos.x, pos.y + fontSize)
+    gCanvas.fillText(upperCaseText, pos.x, pos.y + fontSize)
 }

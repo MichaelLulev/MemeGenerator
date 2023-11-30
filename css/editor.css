@@ -1,3 +1,7 @@
 .controls {
     justify-self: start;
 }
+
+.controls form {
+    display: inline;
+}
