@@ -16,13 +16,16 @@ function initListeners() {
     $('header nav .about').on('click', onToggleAbout)
     $('main.gallery img').on('click', onSelectImage)
     $('main.editor form').on('submit', onSubmitText)
-    $('main.editor canvas').on('click', onSelectTextLine)
+    $('main.editor canvas').on('mousedown', onSelectTextLine)
     $('main.editor input.line-text').on('input', onInputLineText)
-    $('main.editor button.select').on('click', onSelectNextTextLine)
+    $('main.editor button.select-next').on('click', onSelectNextTextLine)
     $('main.editor button.deselect').on('click', onDeselectTextLine)
     $('main.editor button.justify-left').on('click', onJustifyLeft)
     $('main.editor button.justify-center').on('click', onJustifyCenter)
     $('main.editor button.justify-right').on('click', onJustifyRight)
+    $('main.editor button.align-top').on('click', onAlignTop)
+    $('main.editor button.align-center').on('click', onAlignCenter)
+    $('main.editor button.align-bottom').on('click', onAlignBottom)
     $('main.editor button.increase').on('click', onIncreaseFont)
     $('main.editor button.decrease').on('click', onDecreaseFont)
     $('main.editor button.stroke-color').on('change', onChangeStrokeColor)
@@ -50,8 +53,21 @@ function onSelectImage(ev) {
 function onSelectTextLine(ev) {
     const mouseX = ev.offsetX
     const mouseY = ev.offsetY
-    selectElementByBoundingBox(mouseX, mouseY)
+    const selectedTextLine = selectElementByBoundingBox(mouseX, mouseY)
+    renderInputLineText(selectedTextLine)
     redrawCanvas()
+}
+
+function renderInputLineText(selectedTextLine) {
+    if (selectedTextLine) {
+        $('main.editor input.line-text')
+            .val(selectedTextLine.text)
+            .focus()
+    } else {
+        $('main.editor input.line-text')
+            .val('')
+            .blur()
+    }
 }
 
 function onSubmitText(ev) {
@@ -59,7 +75,7 @@ function onSubmitText(ev) {
     const selectedTextLine = getSelectedTextLine()
     if (selectedTextLine) deselectTextLine()
     else onAddTextLine()
-    $('main.editor input.line-text').val('').blur()
+    renderInputLineText()
     redrawCanvas()
 }
 
@@ -79,9 +95,7 @@ function onAddTextLine() {
 
 function onSelectNextTextLine() {
     const selectedTextLine = selectNextTextLine()
-    if (selectedTextLine) {
-        $('main.editor input.line-text').val(selectedTextLine.text)
-    }
+    renderInputLineText(selectedTextLine)
     redrawCanvas()
 }
 
@@ -105,6 +119,21 @@ function onJustifyRight() {
     redrawCanvas()
 }
 
+function onAlignTop() {
+    alignTextLine(ALIGN_TOP)
+    redrawCanvas()
+}
+
+function onAlignCenter() {
+    alignTextLine(ALIGN_CENTER)
+    redrawCanvas()
+}
+
+function onAlignBottom() {
+    alignTextLine(ALIGN_BOTTOM)
+    redrawCanvas()
+}
+
 function onIncreaseFont() {
     changeFontSize(INCREASE_AMOUNT)
     redrawCanvas()
@@ -116,6 +145,7 @@ function onDecreaseFont() {
 }
 
 function onClear() {
+    renderInputLineText()
     clearMeme()
     clearCanvas()
 }

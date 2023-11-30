@@ -38,12 +38,13 @@ function drawText(line) {
     const upperCaseText = text.toUpperCase()
     gCanvas.beginPath()
     gCanvas.font = `${fontSize}px ${font}`
-    gCanvas.fillStyle = isSelected ? 'red' : fillColor
-    gCanvas.strokeStyle = isSelected ? 'red' : strokeColor
+    gCanvas.fillStyle = fillColor
+    gCanvas.strokeStyle = strokeColor
     gCanvas.lineWidth = DEFAULT_LINE_WIDTH
-    if (! pos.x || ! pos.y || ! pos.width) {
+    if (! pos.x) {
         const textWidth = gCanvas.measureText(upperCaseText).width
         pos.width = textWidth
+        pos.height = fontSize
         switch (justify) {
             case JUSTIFY_LEFT:
                 pos.x = 0
@@ -73,4 +74,10 @@ function drawText(line) {
     }
     gCanvas.strokeText(upperCaseText, pos.x, pos.y + fontSize)
     gCanvas.fillText(upperCaseText, pos.x, pos.y + fontSize)
+    if (isSelected) {
+        gCanvas.strokeStyle = 'black'
+        gCanvas.lineWidth = 2
+        gCanvas.rect(pos.leftX - 2, pos.topY + 4, pos.width + 2, pos.height)
+        gCanvas.stroke()
+    }
 }

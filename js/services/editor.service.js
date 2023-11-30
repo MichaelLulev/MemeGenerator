@@ -36,6 +36,7 @@ function getCurrMeme() {
 
 function clearMeme() {
     gCurrMeme = _createMeme()
+    deselectTextLine()
 }
 
 function getSelectedTextLine() {
@@ -56,6 +57,7 @@ function selectElementByBoundingBox(x, y) {
     if (elementToSelect) {
         selectTextLine(elementToSelect)
     } else deselectTextLine()
+    return elementToSelect
 }
 
 function addText(text, strokeColor, fillColor) {
@@ -65,6 +67,7 @@ function addText(text, strokeColor, fillColor) {
 
 function updateTextLine(lineText) {
     if (gSelectedTextLine) {
+        gSelectedTextLine.pos = {}
         gSelectedTextLine.text = lineText
     }
 }
@@ -95,6 +98,13 @@ function justifyTextLine(justifySide) {
     if (gSelectedTextLine) {
         gSelectedTextLine.pos = {}
         gSelectedTextLine.justify = justifySide
+    }
+}
+
+function alignTextLine(alignSide) {
+    if (gSelectedTextLine) {
+        gSelectedTextLine.pos = {}
+        gSelectedTextLine.align = alignSide
     }
 }
 
