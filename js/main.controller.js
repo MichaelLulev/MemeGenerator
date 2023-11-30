@@ -48,6 +48,7 @@ function onShowGallery() {
 
 function onFilterImages(ev) {
     filterImages(ev.target.value)
+    renderSearhCloud()
     renderGallery()
 }
 
