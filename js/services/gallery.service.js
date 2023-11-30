@@ -29,20 +29,40 @@ const gSearchTagsMap = {
     24: ['man', 'funny', 'willi', 'wonka', 'happy', 'smiling', 'hand'],
     25: ['woman', 'field', 'flowers', 'mountains', 'dancing', 'hands', 'happy']
 }
+var gSearchCloud = {}
 var gNextImageId
 
 function initImages() {
     gNextImageId = 1
     gImages = _createAllImages()
     gFilteredImgaes = gImages
+    gSearchCloud = _createRandomSearchCloud()
 }
 
 function getImages() {
     return gFilteredImgaes
 }
 
+function getSearchCloud() {
+    return gSearchCloud
+}
+
 function filterImages(strFilter) {
+    if (! gSearchCloud[strFilter]) gSearchCloud[strFilter] = 0
+    gSearchCloud[strFilter]++
     gFilteredImgaes = gImages.filter(image => image.searchTags.join().includes(strFilter))
+}
+
+function _createRandomSearchCloud() {
+    const searchCloud = {}
+    const duplicateTagWords = []
+    for (let tags of Object.values(gSearchTagsMap)) {
+        duplicateTagWords.push(...tags)
+    }
+    const tagWords = Array.from(new Set(duplicateTagWords))
+    const randomTagWords = getRandomElements(tagWords, 10)
+    randomTagWords.forEach(word => searchCloud[word] = randIntInc(1, 10))
+    return searchCloud
 }
 
 function _createAllImages() {
