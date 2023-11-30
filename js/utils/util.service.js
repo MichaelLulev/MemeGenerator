@@ -1,45 +1,45 @@
 'use strict'
 
 function el(selector) {
-    var element
+    var elements
     if (typeof selector === 'string') {
-        element = document.querySelector(selector)
-    } else element = selector
+        elements = document.querySelectorAll(selector)
+    } else elements = selector
     const wrapedEl = {
-        0: element,
+        0: elements[0],
         on: (event, handler) => {
-            element.addEventListener(event, handler)
-            return el(element)
+            elements.forEach(el => el.addEventListener(event, handler))
+            return el(elements)
         },
         html: strHtml => {
-            if (! strHtml) return element.innerHTML
-            element.innerHTML = strHtml
-            return el(selector)
+            if (strHtml === undefined) return elements.innerHTML
+            elements.forEach(el => el.innerHTML = strHtml)
+            return el(elements)
         },
         addClass: strClass => {
-            element.classList.add(strClass)
-            return el(selector)
+            elements.forEach(el => el.classList.add(strClass))
+            return el(elements)
         },
         removeClass: strClass => {
-            element.classList.remove(strClass)
-            return el(selector)
+            elements.forEach(el => el.classList.remove(strClass))
+            return el(elements)
         },
         toggleClass: strClass => {
-            element.classList.toggle(strClass)
-            return el(selector)
+            elements.forEach(el => el.classList.toggle(strClass))
+            return el(elements)
         },
         val: value => {
-            if (value === undefined) return element.value
-            element.value = value
-            return el(selector)
+            if (value === undefined) return elements.value
+            elements.forEach(el => el.value = value)
+            return el(elements)
         },
         blur: () => {
-            element.blur()
-            return el(element)
+            elements.forEach(el => el.blur())
+            return el(elements)
         },
         focus: () => {
-            element.focus()
-            return el(element)
+            elements.forEach(el => el.focus())
+            return el(elements)
         },
     }
     return wrapedEl
