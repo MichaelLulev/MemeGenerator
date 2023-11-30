@@ -6,103 +6,103 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Meme Generator</title>
 </head>
-<body class="page-layout">
-    <header>
-        <img src="img/logo.svg" alt="MemeGen-logo">
-        <nav>
-            <ul>
-                <li class="editor">Meme Editor</li>
-                <li class="gallery">Gallery</li>
-                <li class="about">About</li>
-            </ul>
-        </nav>
-    </header>
-    <main class="main-editor hidden">
-        <section class="canvas-container">
-            <canvas class="meme" width="400" height="400"></canvas>
-        </section>
-        <section class="controls">
-            <div class="control-row">
-                <form>
-                    <input class="line-text" type="text" placeholder="Text Line">
-                    <button class="add-line">
-                        <img src="img/add-line.svg" alt="add-line">
-                    </button>
-                </form>
-            </div>
-            <div class="control-row">
-                <button class="select-next">
-                    <img src="img/next-line.svg" alt="next-line">
-                </button>
-                <button class="deselect">Deselect Line</button>
-            </div>
-            <div class="control-row">
-                <button class="justify-left">
-                    <img src="img/justify-left.svg" alt="justify-left">
-                </button>
-                <button class="justify-center">
-                    <img src="img/justify-center.svg" alt="justify-center">
-                </button>
-                <button class="justify-right">
-                    <img src="img/justify-right.svg" alt="justify-right">
-                </button>
-            </div>
-            <div class="control-row">
-                <button class="align-top">Align Top</button>
-                <button class="align-center">Align Center</button>
-                <button class="align-bottom">Align Bottom</button>
-            </div>
-            <div class="control-row">
-                <button class="increase">
-                    <img src="img/increase.svg" alt="increase-font">
-                </button>
-                <button class="decrease">
-                    <img src="img/decrease.svg" alt="decrease-font">
-                </button>
-                <label>
-                    <img src="img/stroke-color.svg" alt="stroke-color">
-                    <input class="stroke-color" type="color" value="#000000">
-                </label>
-                <label>
-                    <img src="img/fill-color.svg" alt="fill-color">
-                    <input class="fill-color" type="color" value="#ffffff">
-                </label>
-            </div>
-            <div class="control-row">
-                <button class="remove">
-                    <img src="img/remove-line.svg" alt="remove-line">
-                </button>
-                <button class="clear">Clear</button>
-            </div>
-            <div class="control-row">
-                <a href="#" download="meme.png">Download Meme</a>
-            </div>
-        </section>
-    </main>
-    <main class="main-gallery">
-        <section class="search">
-            <input type="text" placeholder="Search tag">
-            <span class="search-cloud">
-                <span>Happy</span>
-                <span>Sad</span>
-                <span>Angry</span>
-                <span>Dog</span> 
+<body>
+    <div class="app-container">
+        <header>
+            <img src="img/logo.svg" alt="MemeGen-logo">
+            <nav>
+                <ul>
+                    <li class="editor">Meme Editor</li>
+                    <li class="gallery">Gallery</li>
+                    <li class="about">About</li>
+                </ul>
+            </nav>
+        </header>
+        <main class="main-gallery">
+            <section class="search">
+                <input type="text" placeholder="Search tag">
+                <span class="search-cloud">
+                    <!-- Filled Dynamically -->
+                </span>
+            </section>
+            <section class="gallery-layout">
                 <!-- Filled Dynamically -->
-            </span>
-        </section>
-        <section class="gallery-layout">
-            <!-- Filled Dynamically -->
-        </section>
-    </main>
-    <div class="main-about hidden">
-        <p>
-            A meme generator
-        </p>
-        <button class="close">Close</button>
+            </section>
+        </main>
+        <main class="main-editor hidden">
+            <section class="canvas-container">
+                <canvas class="meme" width="400" height="400"></canvas>
+            </section>
+            <section class="controls">
+                <div class="control-row">
+                    <form>
+                        <input class="line-text" type="text" placeholder="Text Line">
+                        <button class="add-line">
+                            <img src="img/add-line.svg" alt="add-line">
+                        </button>
+                    </form>
+                </div>
+                <div class="control-row">
+                    <button class="select-next">
+                        <img src="img/next-line.svg" alt="next-line">
+                    </button>
+                    <button class="deselect">Deselect Line</button>
+                </div>
+                <div class="control-row">
+                    <button class="justify-left">
+                        <img src="img/justify-left.svg" alt="justify-left">
+                    </button>
+                    <button class="justify-center">
+                        <img src="img/justify-center.svg" alt="justify-center">
+                    </button>
+                    <button class="justify-right">
+                        <img src="img/justify-right.svg" alt="justify-right">
+                    </button>
+                </div>
+                <div class="control-row">
+                    <button class="align-top">Align Top</button>
+                    <button class="align-center">Align Center</button>
+                    <button class="align-bottom">Align Bottom</button>
+                </div>
+                <div class="control-row">
+                    <button class="increase">
+                        <img src="img/increase.svg" alt="increase-font">
+                    </button>
+                    <button class="decrease">
+                        <img src="img/decrease.svg" alt="decrease-font">
+                    </button>
+                    <label>
+                        <img src="img/stroke-color.svg" alt="stroke-color">
+                        <input class="stroke-color" type="color" value="#000000">
+                    </label>
+                    <label>
+                        <img src="img/fill-color.svg" alt="fill-color">
+                        <input class="fill-color" type="color" value="#ffffff">
+                    </label>
+                </div>
+                <div class="control-row">
+                    <button class="remove">
+                        <img src="img/remove-line.svg" alt="remove-line">
+                    </button>
+                    <button class="clear">Clear</button>
+                </div>
+                <div class="control-row">
+                    <a href="#" download="meme.png">Download Meme</a>
+                </div>
+            </section>
+        </main>
+        <div class="main-about hidden">
+            <p>
+                A meme generator
+            </p>
+            <button class="close">Close</button>
+        </div>
+        <footer class="main-footer">
+            <section class="all-rights">
+                All rights reserved 2023 © Michael Lulev
+            </section>
+        </footer>
     </div>
-    <footer class="main-footer">
-        All rights reserved 2023 © Michael Lulev
-    </footer>
     <script src="js/utils/util.service.js"></script>
     <script src="js/services/storage.service.js"></script>
     <script src="js/services/gallery.service.js"></script>
