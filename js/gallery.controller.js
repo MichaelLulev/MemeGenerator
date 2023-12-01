@@ -1,11 +1,12 @@
 'use strict'
 
-const MAX_FONT_SIZE = 4
+const MAX_FONT_SIZE = 3.5
 const MIN_FONT_SIZE = 0.7
 
 function initGallery() {
     initImages()
     renderSearhCloud()
+    renderSearchDatalist()
     renderGallery()
 }
 
@@ -17,9 +18,18 @@ function renderSearhCloud() {
     for (let [word, numSearches] of Object.entries(searchCloud)) {
         const fontSize = numSearches / maxSearches * (MAX_FONT_SIZE - MIN_FONT_SIZE) + MIN_FONT_SIZE
         strHtml += `
-            <span class="tag" style="font-size: ${fontSize}rem;">${word}</span>`
+            &ensp;<span class="tag" style="font-size: ${fontSize}rem;">${word}</span>`
     }
     el('.search-cloud').html(strHtml)
+}
+
+function renderSearchDatalist() {
+    const allTagWords = getAllTagWords()
+    const strHtml = allTagWords.reduce((strHtml, tagWord) => {
+        return strHtml + `
+            <option value="${tagWord}"></option>`
+    }, '')
+    el('#tags').html(strHtml)
 }
 
 function renderGallery() {

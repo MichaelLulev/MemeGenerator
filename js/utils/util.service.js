@@ -65,6 +65,26 @@ function removeRandomElement(elements) {
     return elements.splice(randIdx, 1)[0]
 }
 
+function insertToSortedStrings(newStr, strs) {
+    insertToSorted(newStr, strs, compareStrings)
+}
+
+function compareStrings(str1, str2) {
+    return str1.localeCompare(str2)
+}
+
+function insertToSorted(newElement, elements, compareFunc) {
+    for (var i = 0; i < elements.length; i++) {
+        const currElement = elements[i]
+        if (compareFunc(newElement, currElement) <= 0) {
+            elements.splice(i, 0, newElement)
+            return i
+        }
+    }
+    elements.splice(++i, 0, newElement)
+    return i
+}
+
 function log(...args) {
     args = args.map(arg => JSON.stringify(arg, null, 4))
     console.log(...args)

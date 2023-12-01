@@ -10,10 +10,10 @@
     <div class="app-container">
         <header>
             <img src="img/logo.svg" alt="MemeGen-logo">
-            <h2>Submission-Thursday-2000</h2>
             <nav>
                 <ul>
                     <li class="editor">Meme Editor</li>
+                    <li class="memes">My Memes</li>
                     <li class="gallery">Gallery</li>
                     <li class="about">About</li>
                 </ul>
@@ -21,7 +21,10 @@
         </header>
         <main class="main-gallery">
             <section class="search">
-                <input type="text" placeholder="Search tag">
+                <input type="text" list="tags" placeholder="Search tag">
+                <datalist id="tags">
+                    <!-- Filled Dynamically -->
+                </datalist>
                 <span class="search-cloud">
                     <!-- Filled Dynamically -->
                 </span>
@@ -91,6 +94,9 @@
                     <a href="#" download="meme.png">Download Meme</a>
                 </div>
             </section>
+        </main>
+        <main class="main-memes hidden">
+
         </main>
         <div class="main-about hidden">
             <p>

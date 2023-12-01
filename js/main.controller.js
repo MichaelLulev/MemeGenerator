@@ -54,8 +54,12 @@ function onShowGallery() {
 }
 
 function onFilterImages(ev) {
-    filterImages(ev.target.value)
+    const tagWord = ev.target.value.toLowerCase()
+    filterImages(tagWord)
+    addTagWord(tagWord)
     renderSearhCloud()
+    el('.main-gallery .search-cloud .tag').on('click', onFilterImageByTag)
+    renderSearchDatalist()
     renderGallery()
     el('.main-gallery img').on('click', onSelectImage)
 }
@@ -68,7 +72,6 @@ function onFilterImageByTag(ev) {
 }
 
 function onSelectImage(ev) {
-    console.log(ev)
     initEditor()
     createMeme(ev.target)
     redrawCanvas()

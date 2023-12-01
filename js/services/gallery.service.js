@@ -3,33 +3,35 @@
 var gImages
 var gFilteredImgaes
 const gSearchTagsMap = {
-    1: ['dog', 'funny', 'cute', 'laying', 'floor'],
-    2: ['man', 'funny', 'angry', 'pointing', 'yelling', 'face'],
-    3: ['man', 'angry', 'donald', 'trump', 'cursing', 'pointing', 'suit', 'face'],
-    4: ['woman', 'happy', 'oprah', 'winfrey', 'pointing', 'yelling'],
-    5: ['man', 'men', 'toys', 'story', 'woody', 'buzz', 'happy', 'worried', 'smiling'],
-    6: ['man', 'crazy', 'funny', 'hair', 'explaining', 'hands', 'smiling'],
-    7: ['man', 'serious', 'glasses', 'morpheus', 'matrix'],
-    8: ['man', 'leonardo', 'dicaprio', 'smiling', 'hand', 'glass', 'smug', 'suit'],
-    9: ['man', 'men', 'kissing', 'funny', 'sport'],
-    10: ['man', 'hand', 'explaining', 'serious', 'hair'],
+    1: ['cute', 'dog', 'floor', 'funny', 'laying'],
+    2: ['angry', 'face', 'funny', 'man', 'pointing', 'yelling'],
+    3: ['angry', 'cursing', 'donald', 'face', 'man', 'pointing', 'suit', 'trump'],
+    4: ['happy', 'oprah', 'pointing', 'winfrey', 'woman', 'yelling'],
+    5: ['buzz', 'happy', 'man', 'men', 'smiling', 'story', 'toys', 'woody', 'worried'],
+    6: ['crazy', 'explaining', 'funny', 'hair', 'hands', 'man', 'smiling'],
+    7: ['glasses', 'man', 'matrix', 'morpheus', 'serious'],
+    8: ['dicaprio', 'glass', 'hand', 'leonardo', 'man', 'smiling', 'smug', 'suit'],
+    9: ['funny', 'kissing', 'man', 'men', 'sport'],
+    10: ['explaining', 'hair', 'hand', 'man', 'serious'],
     11: ['baby', 'funny', 'surprised'],
-    12: ['man', 'vladimir', 'putin', 'pointing', 'smug', 'suit'],
-    13: ['man', 'angry', 'pointing', 'donald', 'trump', 'suit', 'face'],
-    14: ['man', 'startrek', 'hand', 'smiling', 'happy', 'bold'],
-    15: ['dogs', 'cute', 'licking', 'happy', 'puppy', 'puppies', 'small'],
-    16: ['baby', 'babies', 'boy', 'kids', 'funny', 'dancing', 'underwear'],
-    17: ['cat', 'cute', 'laying', 'keyboard'],
-    18: ['man', 'barack', 'obama', 'smiling', 'happy', 'teeth', 'face'],
-    19: ['baby', 'dog', 'sleeping', 'cute', 'blanket', 'bed'],
-    20: ['man', 'funny', 'pointing', 'glasses'],
-    21: ['baby', 'funny', 'serious', 'fist', 'beach'],
-    22: ['baby', 'funny', 'laughing', 'evil', 'hands'],
-    23: ['man', 'funny', 'dr', 'evil', 'bald', 'fingers', 'quotes', 'face'],
-    24: ['man', 'funny', 'willi', 'wonka', 'happy', 'smiling', 'hand'],
-    25: ['woman', 'field', 'flowers', 'mountains', 'dancing', 'hands', 'happy']
+    12: ['man', 'pointing', 'putin', 'smug', 'suit', 'vladimir'],
+    13: ['angry', 'donald', 'face', 'man', 'pointing', 'suit', 'trump'],
+    14: ['bold', 'hand', 'happy', 'man', 'smiling', 'startrek'],
+    15: ['cute', 'dogs', 'happy', 'licking', 'puppies', 'puppy', 'small'],
+    16: ['babies', 'baby', 'boy', 'dancing', 'funny', 'kids', 'underwear'],
+    17: ['cat', 'cute', 'keyboard', 'laying'],
+    18: ['barack', 'face', 'happy', 'man', 'obama', 'smiling', 'teeth'],
+    19: ['baby', 'bed', 'blanket', 'cute', 'dog', 'sleeping'],
+    20: ['funny', 'glasses', 'man', 'pointing'],
+    21: ['baby', 'beach', 'fist', 'funny', 'serious'],
+    22: ['baby', 'evil', 'funny', 'hands', 'laughing'],
+    23: ['bald', 'dr', 'evil', 'face', 'fingers', 'funny', 'man', 'quotes'],
+    24: ['funny', 'hand', 'happy', 'man', 'smiling', 'willi', 'wonka'],
+    25: ['dancing', 'field', 'flowers', 'hands', 'happy', 'mountains', 'woman']
 }
 var gSearchCloud = {}
+var gAllTagWords
+
 var gNextImageId
 
 function initImages() {
@@ -47,6 +49,16 @@ function getSearchCloud() {
     return gSearchCloud
 }
 
+function getAllTagWords() {
+    return gAllTagWords
+}
+
+function addTagWord(tagWord) {
+    if (! gAllTagWords.join().includes(tagWord)) {
+        insertToSortedStrings(tagWord, gAllTagWords)
+    }
+}
+
 function filterImages(strFilter) {
     if (! gSearchCloud[strFilter]) gSearchCloud[strFilter] = 0
     gSearchCloud[strFilter]++
@@ -59,8 +71,9 @@ function _createRandomSearchCloud() {
     for (let tags of Object.values(gSearchTagsMap)) {
         duplicateTagWords.push(...tags)
     }
-    const tagWords = Array.from(new Set(duplicateTagWords))
-    const randomTagWords = getRandomElements(tagWords, 10)
+    gAllTagWords = Array.from(new Set(duplicateTagWords))
+    gAllTagWords.sort(compareStrings)
+    const randomTagWords = getRandomElements(gAllTagWords, 10)
     randomTagWords.forEach(word => searchCloud[word] = randIntInc(1, 10))
     return searchCloud
 }
