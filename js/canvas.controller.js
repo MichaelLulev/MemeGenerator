@@ -8,6 +8,9 @@ const PADDING_BOTTOM = 10
 const PADDING_LEFT = 10
 const PADDING_RIGHT = 10
 
+const CIRCLE_RADIUS = 6
+const DEFAULT_LINE_WIDTH_RATIO = 0.1
+
 var gElCanvas
 var gCanvas
 
@@ -21,7 +24,7 @@ function redrawCanvas() {
     clearCanvas()
     if (currMeme.image) drawImage(currMeme.image)
     currMeme.elements.forEach(element => {
-        if (element.type === TYPE_TEXT_LINE) drawText(element)
+        drawElement(element)
     })
 }
 
@@ -38,15 +41,17 @@ function drawImage(image) {
     gCanvas.drawImage(image, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
-function drawText(textLine) {
-    const { text, font, fontSize, strokeColor, fillColor, justify, align, pos, isSelected } = textLine
+function drawElement(element) {
+    const { type, text, font, fontSize, strokeColor, fillColor, justify, align, pos, angle, isSelected } = element
     const upperCaseText = text.toUpperCase()
     gCanvas.beginPath()
     gCanvas.font = `${fontSize}px "${font}"`
     gCanvas.fillStyle = fillColor
     gCanvas.strokeStyle = strokeColor
-    gCanvas.lineWidth = DEFAULT_LINE_WIDTH
+    gCanvas.lineWidth = DEFAULT_LINE_WIDTH_RATIO * fontSize
     const textWidth = gCanvas.measureText(upperCaseText).width
+    // pos.width = textWidth + (type === TYPE_TEXT_LINE ? 7 : -4)
+    // pos.height = fontSize + (type === TYPE_EMOJI ? 10 : 0)
     pos.width = textWidth
     pos.height = fontSize
     if (pos.x === undefined) {
@@ -75,19 +80,37 @@ function drawText(textLine) {
                 break
         }
     }
+    // pos.leftX = pos.x + (type === TYPE_EMOJI ? 2 : -4)
+    // pos.rightX = pos.x + pos.width
+    // pos.topY = pos.y + (type === TYPE_EMOJI ? 1 : 4)
+    // pos.bottomY = pos.y + fontSize
     pos.leftX = pos.x
     pos.rightX = pos.x + pos.width
     pos.topY = pos.y
     pos.bottomY = pos.y + fontSize
-    gCanvas.strokeText(upperCaseText, pos.x, pos.y + fontSize)
-    gCanvas.fillText(upperCaseText, pos.x, pos.y + fontSize)
+    gCanvas.translate(pos.x, pos.y)
+    gCanvas.rotate(angle)
+    if (type === TYPE_TEXT_LINE) {
+        gCanvas.strokeText(upperCaseText, 0, fontSize)
+    }
+    gCanvas.fillText(upperCaseText, 0, fontSize)
+    gCanvas.rotate(0)
+    gCanvas.setTransform(1, 0, 0, 1, 0, 0)
     if (isSelected) {
         gCanvas.lineWidth = 2
         gCanvas.strokeStyle = 'white'
-        gCanvas.strokeRect(pos.leftX - 2, pos.topY + 4, pos.width + 2, pos.height)
+        gCanvas.strokeRect(pos.leftX, pos.topY, pos.width, pos.height)
         gCanvas.strokeStyle = 'black'
         gCanvas.setLineDash([5, 5])
-        gCanvas.strokeRect(pos.leftX - 2, pos.topY + 4, pos.width + 2, pos.height)
+        gCanvas.strokeRect(pos.leftX, pos.topY, pos.width, pos.height)
+        gCanvas.setLineDash([])
+        gCanvas.beginPath()
+        gCanvas.strokeStyle = 'white'
+        gCanvas.arc(pos.rightX, pos.topY, CIRCLE_RADIUS, 0, Math.PI * 2)
+        gCanvas.fill()
+        gCanvas.strokeStyle = 'black'
+        gCanvas.arc(pos.rightX, pos.topY, CIRCLE_RADIUS, 0, Math.PI * 2)
+        gCanvas.stroke()
         gCanvas.setLineDash([])
     }
 }

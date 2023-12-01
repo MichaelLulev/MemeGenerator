@@ -12,7 +12,6 @@ function initGallery() {
 
 function renderSearhCloud() {
     const searchCloud = getSearchCloud()
-    const minSearches = Math.min(...Object.values(searchCloud))
     const maxSearches = Math.max(...Object.values(searchCloud))
     var strHtml = ''
     for (let [word, numSearches] of Object.entries(searchCloud)) {

@@ -16,7 +16,9 @@ function initListeners() {
     el('.main-gallery .search input[type="text"]').on('change', onFilterImages)
     el('.main-gallery .search-cloud .tag').on('click', onFilterImageByTag)
     el('.main-gallery img').on('click', onSelectImage)
-    el('.main-editor form').on('submit', onSubmitText)
+    el('.main-editor form.text-line').on('submit', onSubmitText)
+    el('.main-editor input.line-text').on('input', onInputLineText)
+    el('.main-editor form.emoji').on('submit', onSubmitEmoji)
     el('body').on('mousedown', onDeselectWithMouse)
     el('.main-editor .controls .control-row').on('mousedown', ev => ev.stopPropagation())
     el('.main-editor canvas').on('mousedown', onSelectWithMouse)
@@ -25,8 +27,7 @@ function initListeners() {
     el('.main-editor canvas').on('mouseout', onStopMovingWithMouse)
     el('body').on('click', onClickWithMouse)
     el('.main-editor .controls .control-row').on('click', ev => ev.stopPropagation())
-    el('.main-editor input.line-text').on('input', onInputLineText)
-    el('.main-editor button.select-next').on('click', onSelectNextTextLine)
+    el('.main-editor button.select-next').on('click', onSelectNextElement)
     el('.main-editor button.deselect').on('click', onDeselectElement)
     el('.main-editor button.justify-left').on('click', onJustifyLeft)
     el('.main-editor button.justify-center').on('click', onJustifyCenter)
@@ -90,19 +91,28 @@ function onSelectWithMouse(ev) {
     ev.stopPropagation()
     const mouseX = ev.offsetX
     const mouseY = ev.offsetY
-    const selectedElement = selectElementByBoundingBox(mouseX, mouseY)
-    renderInputs(selectedElement)
-    redrawCanvas()
+    const isCircleSelected = selectElementCircleByRadius(mouseX, mouseY)
+    if (! isCircleSelected) {
+        const selectedElement = selectElementByBoundingBox(mouseX, mouseY)
+        renderInputs(selectedElement)
+        redrawCanvas()
+    }
 }
 
 function onMoveWithMouse(ev) {
     const mouseX = ev.offsetX
     const mouseY = ev.offsetY
-    moveElement(mouseX, mouseY)
+    const isTransforming = checkTransforming()
+    if (isTransforming) {
+        transformElement(mouseX, mouseY)
+    } else {
+        moveElement(mouseX, mouseY)
+    }
     redrawCanvas()
 }
 
 function onStopMovingWithMouse() {
+    stopTransformingElement()
     stopMovingElement()
 }
 
@@ -123,6 +133,18 @@ function renderInputLineText(selectedTextLine) {
     }
 }
 
+function renderInputEmojiSearch(selectedEmoji) {
+    if (selectedEmoji) {
+        el('.main-editor input.emoji-search')
+            .val(selectedEmoji.text)
+            .focus()
+    } else {
+        el('.main-editor input.emoji-search')
+            .val('')
+            .blur()
+    }
+}
+
 function renderInputColor(selectedTextLine) {
     if (selectedTextLine) {
         el('.main-editor input.stroke-color').val(selectedTextLine.strokeColor)
@@ -138,10 +160,19 @@ function renderInputFont(selectedTextLine) {
 
 function onSubmitText(ev) {
     ev.preventDefault()
-    const selectedTextLine = getSelectedElement()
-    if (selectedTextLine) deselectElement()
+    const selectedElement = getSelectedElement()
+    if (selectedElement) deselectElement()
     else onAddTextLine()
     renderInputLineText()
+    redrawCanvas()
+}
+
+function onSubmitEmoji(ev) {
+    ev.preventDefault()
+    const selectedElement = getSelectedElement()
+    if (selectedElement) deselectElement()
+    else onAddEmoji()
+    renderInputEmojiSearch()
     redrawCanvas()
 }
 
@@ -155,20 +186,37 @@ function onAddTextLine() {
     const text = el('input.line-text').val()
     const strokeColor = el('input.stroke-color').val()
     const fillColor = el('input.fill-color').val()
-    addTextLine(text, strokeColor, fillColor)
-    redrawCanvas()
+    addElement(TYPE_TEXT_LINE, text, strokeColor, fillColor)
 }
 
-function onSelectNextTextLine() {
-    const selectedTextLine = selectNextTextLine()
-    renderInputs(selectedTextLine)
+function onAddEmoji() {
+    const emoji = el('input.emoji-search').val()
+    addElement(TYPE_EMOJI, emoji)
+}
+
+function onSelectNextElement() {
+    const selectedElement = selectNextElement()
+    renderInputs(selectedElement)
     redrawCanvas()
 }
 
 function renderInputs(selectedElement) {
-    renderInputLineText(selectedElement)
-    renderInputFont(selectedElement)
-    renderInputColor(selectedElement)
+    if (! selectedElement) {
+        renderInputLineText()
+        renderInputFont()
+        renderInputColor()
+        renderInputEmojiSearch()
+        return
+    }
+    switch (selectedElement.type) {
+        case TYPE_TEXT_LINE:
+            renderInputLineText(selectedElement)
+            renderInputFont(selectedElement)
+            renderInputColor(selectedElement)
+            break
+        case TYPE_EMOJI:
+            renderInputEmojiSearch(selectedElement)
+    }
 }
 
 function onDeselectElement() {
@@ -177,32 +225,32 @@ function onDeselectElement() {
 }
 
 function onJustifyLeft() {
-    justifyTextLine(JUSTIFY_LEFT)
+    justifyElement(JUSTIFY_LEFT)
     redrawCanvas()
 }
 
 function onJustifyCenter() {
-    justifyTextLine(JUSTIFY_CENTER)
+    justifyElement(JUSTIFY_CENTER)
     redrawCanvas()
 }
 
 function onJustifyRight() {
-    justifyTextLine(JUSTIFY_RIGHT)
+    justifyElement(JUSTIFY_RIGHT)
     redrawCanvas()
 }
 
 function onAlignTop() {
-    alignTextLine(ALIGN_TOP)
+    alignElement(ALIGN_TOP)
     redrawCanvas()
 }
 
 function onAlignCenter() {
-    alignTextLine(ALIGN_CENTER)
+    alignElement(ALIGN_CENTER)
     redrawCanvas()
 }
 
 function onAlignBottom() {
-    alignTextLine(ALIGN_BOTTOM)
+    alignElement(ALIGN_BOTTOM)
     redrawCanvas()
 }
 

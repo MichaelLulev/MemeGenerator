@@ -1,12 +1,14 @@
 'use strict'
 
+const DEFAULT_LINE_TEXT = 'text line '
+const DEFAULT_EMOJI = '😀'
 const DEFAULT_FONT = 'Impact'
 const DEFAULT_FONT_SIZE = 40
 const DEFAULT_STROKE_COLOR = '#000000'
 const DEFAULT_FILL_COLOR = '#ffffff'
-const DEFAULT_LINE_WIDTH = 4
 
 const TYPE_TEXT_LINE = 'textLine'
+const TYPE_EMOJI = 'emoji'
 
 const JUSTIFY_LEFT = 'justifyLeft'
 const JUSTIFY_CENTER = 'justifyCenter'
@@ -21,13 +23,17 @@ const DECREASE_AMOUNT = -1
 
 var gCurrMeme
 var gSelectedElement
-var nextElementId
+var gNextElementId
 
-var prevX
-var prevY
+var gPrevX
+var gPrevY
+
+var gPrevCircleX
+var gPrevCircleY
+var gOriginalFontSize
 
 function initEditor() {
-    nextElementId = 1
+    gNextElementId = 1
     clearMeme()
     initCanvas()
 }
@@ -55,23 +61,57 @@ function selectElement(element) {
     gSelectedElement = element
 }
 
-function selectElementByBoundingBox(currX, currY) {
-    const elementToSelect = gCurrMeme.elements.find(el => {
+function selectElementByBoundingBox(mouseX, mouseY) {
+    const elementToSelect = gCurrMeme.elements.findLast(el => {
         const { leftX, rightX, topY, bottomY } = el.pos
-        return checkInBox(currX, currY, leftX, rightX, topY, bottomY)
+        return checkInBox(mouseX, mouseY, leftX, rightX, topY, bottomY)
     })
     if (elementToSelect) {
         selectElement(elementToSelect)
     } else deselectElement()
-    prevX = currX
-    prevY = currY
+    gPrevX = mouseX
+    gPrevY = mouseY
     return elementToSelect
 }
 
+function selectElementCircleByRadius(mouseX, mouseY) {
+    if (! gSelectedElement) return false
+    const circleX = gSelectedElement.pos.rightX
+    const circleY = gSelectedElement.pos.topY
+    const isInCircle = checkInCircle(mouseX, mouseY, circleX, circleY, CIRCLE_RADIUS)
+    if (! isInCircle) return false
+    gPrevCircleX = mouseX
+    gPrevCircleY = mouseY
+    gOriginalFontSize = gSelectedElement.fontSize
+    return true
+}
+
+function checkTransforming() {
+    return gOriginalFontSize !== undefined
+}
+
+function transformElement(currCircleX, currCircleY) {
+    if (! gSelectedElement) return
+    const elementX = gSelectedElement.pos.x
+    const elementY = gSelectedElement.pos.y
+    const prevDist = distance(elementX, elementY, gPrevCircleX, gPrevCircleY)
+    const currDist = distance(elementX, elementY, currCircleX, currCircleY)
+    const newFontSize = gOriginalFontSize * currDist / prevDist
+    gSelectedElement.fontSize = newFontSize
+    const angleAddition = elementX < currCircleX ? 0 : -Math.PI 
+    gSelectedElement.angle = Math.atan((currCircleY - elementY) / (currCircleX - elementX)) + angleAddition
+}
+
+function stopTransformingElement() {
+    gPrevCircleX = undefined
+    gPrevCircleY = undefined
+    gOriginalFontSize = undefined
+}
+
 function moveElement(currX, currY) {
-    if (! gSelectedElement || ! prevX || ! prevY) return
-    const diffX = currX - prevX
-    const diffY = currY - prevY
+    if (! gSelectedElement || ! gPrevX || ! gPrevY) return
+    const diffX = currX - gPrevX
+    const diffY = currY - gPrevY
     const pos = gSelectedElement.pos
     pos.x += diffX
     pos.y += diffY
@@ -79,18 +119,18 @@ function moveElement(currX, currY) {
     pos.rightX += diffX
     pos.topY += diffY
     pos.bottomY += diffY
-    prevX = currX
-    prevY = currY
+    gPrevX = currX
+    gPrevY = currY
 }
 
 function stopMovingElement() {
-    prevX = undefined
-    prevY = undefined
+    gPrevX = undefined
+    gPrevY = undefined
 }
 
-function addTextLine(text, strokeColor, fillColor) {
-    const textLine = _createTextLine(text, undefined, undefined, strokeColor, fillColor)
-    gCurrMeme.elements.push(textLine)
+function addElement(type, text, strokeColor, fillColor) {
+    const element = _createElement(type, text, undefined, undefined, strokeColor, fillColor)
+    gCurrMeme.elements.push(element)
 }
 
 function updateTextLine(lineText) {
@@ -108,18 +148,15 @@ function removeElementById(id) {
     }
 }
 
-function selectNextTextLine() {
-    const selectedLineIdx = gCurrMeme.elements.findIndex(el => el.type === TYPE_TEXT_LINE && el.isSelected)
-    if (selectedLineIdx !== -1) {
-        const selectedLine = gCurrMeme.elements[selectedLineIdx]
-        selectedLine.isSelected = false
+function selectNextElement() {
+    const selectedElementIdx = gCurrMeme.elements.findIndex(el => el.isSelected)
+    deselectElement()
+    const nextElementIdx = selectedElementIdx + 1
+    const nextElement = gCurrMeme.elements[nextElementIdx]
+    if (nextElement) {
+        nextElement.isSelected = true
+        gSelectedElement = nextElement
     }
-    const restElements = gCurrMeme.elements.slice(selectedLineIdx + 1)
-    const nextTextLine = restElements.find(el => el.type === TYPE_TEXT_LINE)
-    if (nextTextLine) {
-        nextTextLine.isSelected = true
-        gSelectedElement = nextTextLine
-    } else gSelectedElement = undefined
     return gSelectedElement
 }
 
@@ -130,14 +167,14 @@ function deselectElement() {
     }
 }
 
-function justifyTextLine(justifySide) {
+function justifyElement(justifySide) {
     if (gSelectedElement) {
         gSelectedElement.pos.x = undefined
         gSelectedElement.justify = justifySide
     }
 }
 
-function alignTextLine(alignSide) {
+function alignElement(alignSide) {
     if (gSelectedElement) {
         gSelectedElement.pos.y = undefined
         gSelectedElement.align = alignSide
@@ -173,22 +210,31 @@ function _createMeme(image) {
     return meme
 }
 
-function _createTextLine(text, font, fontSize, strokeColor, fillColor, justify, align, pos) {
-    if (! text) text = 'Text Line ' + nextElementId
+function _createElement(type, text, font, fontSize, strokeColor, fillColor, justify, align, angle, pos) {
+    if (! text) {
+        switch (type) {
+            case TYPE_TEXT_LINE:
+                text = DEFAULT_LINE_TEXT + gNextElementId
+                break
+            case TYPE_EMOJI:
+                text = DEFAULT_EMOJI
+        }
+    }
     if (! font) font = DEFAULT_FONT
     if (! fontSize) fontSize = DEFAULT_FONT_SIZE
     if (! strokeColor) strokeColor = DEFAULT_STROKE_COLOR
     if (! fillColor) fillColor = DEFAULT_FILL_COLOR
     if (! justify) justify = JUSTIFY_CENTER
     if (! align) {
-        if (nextElementId === 1) align = ALIGN_TOP
-        else if (nextElementId === 2) align = ALIGN_BOTTOM
+        if (gNextElementId === 1) align = ALIGN_TOP
+        else if (gNextElementId === 2) align = ALIGN_BOTTOM
         else align = ALIGN_CENTER
     }
     if (! pos) pos = {}
-    const textLine = {
-        type: TYPE_TEXT_LINE,
-        id: nextElementId++,
+    if (! angle) angle = 0
+    const element = {
+        id: gNextElementId++,
+        type,
         text,
         font,
         fontSize,
@@ -197,7 +243,8 @@ function _createTextLine(text, font, fontSize, strokeColor, fillColor, justify, 
         justify,
         align,
         pos,
+        angle,
         isSelected: false,
     }
-    return textLine
+    return element
 }

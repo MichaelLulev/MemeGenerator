@@ -50,6 +50,14 @@ function checkInBox(x, y, leftX, rightX, topY, bottomY) {
     return leftX <= x && x <= rightX && topY <= y && y <= bottomY
 }
 
+function checkInCircle(x, y, circleX, circleY, circleRadius) {
+    return distance(x, y, circleX, circleY) <= circleRadius
+}
+
+function distance(x1, y1, x2, y2) {
+    return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+}
+
 function getRandomElements(elements, num) {
     const elementsCopy = elements.slice()
     const randomElements = []

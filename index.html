@@ -39,7 +39,7 @@
             </section>
             <section class="controls">
                 <div class="control-row">
-                    <form>
+                    <form class="text-line">
                         <input class="line-text" type="text" placeholder="Text Line">
                         <button class="add-line">
                             <img src="img/add-line.svg" alt="add-line">
@@ -93,10 +93,15 @@
                     </label>
                 </div>
                 <div class="control-row">
-                    <input type="text" list="emojis" placeholder="Search Emojis">
-                    <datalist id="emojis">
-                        <!-- Filled Dynamically -->
-                    </datalist>
+                    <form class="emoji">
+                        <input class="emoji-search" type="text" list="emojis" placeholder="Search Emojis">
+                        <datalist id="emojis">
+                            <!-- Filled Dynamically -->
+                        </datalist>
+                        <button class="add-emoji">
+                            <img src="img/add-line.svg" alt="add-emoji">
+                        </button>
+                    </form>
                 </div>
                 <div class="control-row">
                     <button class="remove">
