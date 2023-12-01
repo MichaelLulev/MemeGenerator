@@ -29,7 +29,8 @@ function renderGallery() {
             <div class="image-container">
                 <img src="img/gallery/${image.name}"
                      alt="meme-image-${image.name}"
-                     title="${image.searchTags.join(', ')}">
+                     title="${image.searchTags.join(', ')}"
+                     draggable="false">
             </div>`
     }, '')
     if (! strHtml) strHtml = 'Didn\'t find any images'
