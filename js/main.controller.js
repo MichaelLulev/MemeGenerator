@@ -5,6 +5,7 @@ window.onload = onInit
 function onInit() {
     initGallery()
     initEditor()
+    initControls()
     initListeners()
 }
 

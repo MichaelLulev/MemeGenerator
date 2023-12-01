@@ -5,8 +5,9 @@ function el(selector) {
     if (typeof selector === 'string') {
         elements = document.querySelectorAll(selector)
     } else elements = selector
+    const elements0 = elements.length === 1 ? elements[0] : Array.from(elements)
     const wrapedEl = {
-        0: elements[0],
+        0: elements0,
         on: (event, handler) => {
             elements.forEach(el => el.addEventListener(event, handler))
             return el(elements)
