@@ -23,6 +23,7 @@ function initListeners() {
     el('.main-editor canvas').on('mouseup', onStopMovingWithMouse)
     el('.main-editor canvas').on('mouseout', onStopMovingWithMouse)
     el('body').on('click', onClickWithMouse)
+    el('.main-editor .controls .control-row *').on('click', onDoNotDeselect)
     el('.main-editor input.line-text').on('input', onInputLineText)
     el('.main-editor button.select-next').on('click', onSelectNextTextLine)
     el('.main-editor button.deselect').on('click', onDeselectElement)
