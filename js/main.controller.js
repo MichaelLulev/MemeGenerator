@@ -17,13 +17,13 @@ function initListeners() {
     el('.main-gallery img').on('click', onSelectImage)
     el('.main-editor form').on('submit', onSubmitText)
     el('body').on('mousedown', onDeselectWithMouse)
-    el('.main-editor .controls .control-row *').on('mousedown', onDoNotDeselect)
+    el('.main-editor .controls .control-row').on('mousedown', ev => ev.stopPropagation())
     el('.main-editor canvas').on('mousedown', onSelectWithMouse)
     el('.main-editor canvas').on('mousemove', onMoveWithMouse)
     el('.main-editor canvas').on('mouseup', onStopMovingWithMouse)
     el('.main-editor canvas').on('mouseout', onStopMovingWithMouse)
     el('body').on('click', onClickWithMouse)
-    el('.main-editor .controls .control-row *').on('click', onDoNotDeselect)
+    el('.main-editor .controls .control-row').on('click', ev => ev.stopPropagation())
     el('.main-editor input.line-text').on('input', onInputLineText)
     el('.main-editor button.select-next').on('click', onSelectNextTextLine)
     el('.main-editor button.deselect').on('click', onDeselectElement)
@@ -82,10 +82,6 @@ function onDeselectWithMouse() {
     deselectElement()
     renderInputs()
     redrawCanvas()
-}
-
-function onDoNotDeselect(ev) {
-    ev.stopPropagation()
 }
 
 function onSelectWithMouse(ev) {
