@@ -9,9 +9,9 @@ function onInit() {
 }
 
 function initListeners() {
-    el('header nav .editor').on('click', onShowEditor)
-    el('header nav .gallery').on('click', onShowGallery)
-    el('header nav .about').on('click', onToggleAbout)
+    el('header nav .editor').on('mousedown', onShowEditor)
+    el('header nav .gallery').on('mousedown', onShowGallery)
+    el('header nav .about').on('mousedown', onToggleAbout)
     el('.main-gallery .search input[type="text"]').on('change', onFilterImages)
     el('.main-gallery .search-cloud .tag').on('click', onFilterImageByTag)
     el('.main-gallery img').on('click', onSelectImage)
