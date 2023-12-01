@@ -95,7 +95,6 @@ function addTextLine(text, strokeColor, fillColor) {
 
 function updateTextLine(lineText) {
     if (gSelectedElement) {
-        gSelectedElement.pos = {}
         gSelectedElement.text = lineText
     }
 }
@@ -133,21 +132,26 @@ function deselectElement() {
 
 function justifyTextLine(justifySide) {
     if (gSelectedElement) {
-        gSelectedElement.pos = {}
+        gSelectedElement.pos.x = undefined
         gSelectedElement.justify = justifySide
     }
 }
 
 function alignTextLine(alignSide) {
     if (gSelectedElement) {
-        gSelectedElement.pos = {}
+        gSelectedElement.pos.y = undefined
         gSelectedElement.align = alignSide
+    }
+}
+
+function changeFont(font) {
+    if (gSelectedElement) {
+        gSelectedElement.font = font
     }
 }
 
 function changeFontSize(changeAmount) {
     if (gSelectedElement) {
-        gSelectedElement.pos = {}
         gSelectedElement.fontSize += changeAmount
     }
 }

@@ -33,10 +33,11 @@ function initListeners() {
     el('.main-editor button.align-top').on('click', onAlignTop)
     el('.main-editor button.align-center').on('click', onAlignCenter)
     el('.main-editor button.align-bottom').on('click', onAlignBottom)
+    el('.main-editor select.font').on('change', onChangeFont)
     el('.main-editor button.increase').on('click', onIncreaseFont)
     el('.main-editor button.decrease').on('click', onDecreaseFont)
-    el('.main-editor input.stroke-color').on('change', onChangeStrokeColor)
-    el('.main-editor input.fill-color').on('change', onChangeFillColor)
+    el('.main-editor input.stroke-color').on('input', onChangeStrokeColor)
+    el('.main-editor input.fill-color').on('input', onChangeFillColor)
     el('.main-editor button.remove').on('click', onRemove)
     el('.main-editor button.clear').on('click', onClear)
     el('.main-editor a[download]').on('click', onDownloadImage)
@@ -128,6 +129,12 @@ function renderInputColor(selectedTextLine) {
     }
 }
 
+function renderInputFont(selectedTextLine) {
+    if (selectedTextLine) {
+        el('.main-editor select.font').val(selectedTextLine.font)
+    }
+}
+
 function onSubmitText(ev) {
     ev.preventDefault()
     const selectedTextLine = getSelectedElement()
@@ -159,6 +166,7 @@ function onSelectNextTextLine() {
 
 function renderInputs(selectedElement) {
     renderInputLineText(selectedElement)
+    renderInputFont(selectedElement)
     renderInputColor(selectedElement)
 }
 
@@ -194,6 +202,12 @@ function onAlignCenter() {
 
 function onAlignBottom() {
     alignTextLine(ALIGN_BOTTOM)
+    redrawCanvas()
+}
+
+function onChangeFont(ev) {
+    const font = ev.target.value
+    changeFont(font)
     redrawCanvas()
 }
 

@@ -57,7 +57,7 @@ nav ul li:hover {
     color: rgb(0, 0, 0);
 }
 
-input[type="text"], datalist {
+input[type="text"], select {
     font-size: 1.1em;
 }
 
@@ -111,11 +111,17 @@ canvas {
     padding: 0.75em;
     background-color: rgb(240, 240, 240);
     border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75em;
 }
 
 .control-row {
-    margin: 0.75em;
     display: flex;
+    flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
     gap: 0.25em;
