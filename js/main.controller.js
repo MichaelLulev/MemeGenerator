@@ -17,8 +17,10 @@ function initListeners() {
     el('.main-gallery .search input[type="text"]').on('change', onFilterImages)
     el('.main-gallery .search-cloud .tag').on('click', onFilterImageByTag)
     el('.main-gallery img').on('click', onSelectImage)
+    el('.main-editor form.text-line *').on('focus', onFocusTextLine)
     el('.main-editor form.text-line').on('submit', onSubmitText)
     el('.main-editor input.line-text').on('input', onInputLineText)
+    el('.main-editor form.emoji *').on('focus', onFocusEmojiSearch)
     el('.main-editor form.emoji').on('submit', onSubmitEmoji)
     el('body').on('mousedown', onDeselectWithMouse)
     el('.main-editor .controls .control-row').on('mousedown', ev => ev.stopPropagation())
@@ -43,6 +45,7 @@ function initListeners() {
     el('.main-editor input.fill-color').on('input', onChangeFillColor)
     el('.main-editor button.remove').on('click', onRemove)
     el('.main-editor button.clear').on('click', onClear)
+    el('.main-editor button.new-meme').on('click', onNewMeme)
     el('.main-editor a[download]').on('click', onDownloadImage)
     el('.main-about .close').on('click', onCloseAbout)
 }
@@ -170,6 +173,13 @@ function renderInputFont(selectedTextLine) {
     }
 }
 
+function onFocusTextLine() {
+    const selectedElement = getSelectedElement()
+    if (selectedElement && selectedElement.type === TYPE_EMOJI) {
+        deselectElement()
+    }
+}
+
 function onSubmitText(ev) {
     ev.preventDefault()
     const selectedElement = getSelectedElement()
@@ -177,6 +187,10 @@ function onSubmitText(ev) {
     else onAddTextLine()
     renderInputLineText()
     redrawCanvas()
+}
+
+function onFocusEmojiSearch() {
+    deselectElement()
 }
 
 function onSubmitEmoji(ev) {
@@ -227,7 +241,7 @@ function renderInputs(selectedElement) {
             renderInputColor(selectedElement)
             break
         case TYPE_EMOJI:
-            renderInputEmojiSearch(selectedElement)
+            // renderInputEmojiSearch(selectedElement)
     }
 }
 
@@ -290,6 +304,12 @@ function onRemove() {
 }
 
 function onClear() {
+    renderInputs()
+    removeElements()
+    redrawCanvas()
+}
+
+function onNewMeme() {
     renderInputs()
     initEditor()
     clearCanvas()

@@ -34,8 +34,14 @@ var gOriginalFontSize
 
 function initEditor() {
     gNextElementId = 1
-    clearMeme()
+    deleteMeme()
     initCanvas()
+}
+
+function removeElements() {
+    gCurrMeme.elements = []
+    gNextElementId = 1
+    deselectElement()
 }
 
 function createMeme(image) {
@@ -46,7 +52,7 @@ function getCurrMeme() {
     return gCurrMeme
 }
 
-function clearMeme() {
+function deleteMeme() {
     gCurrMeme = _createMeme()
     deselectElement()
 }
@@ -233,7 +239,8 @@ function _createElement(type, text, font, fontSize, strokeColor, fillColor, just
     if (! fillColor) fillColor = DEFAULT_FILL_COLOR
     if (! justify) justify = JUSTIFY_CENTER
     if (! align) {
-        if (gNextElementId === 1) align = ALIGN_TOP
+        if (type === TYPE_EMOJI) align = ALIGN_CENTER
+        else if (gNextElementId === 1) align = ALIGN_TOP
         else if (gNextElementId === 2) align = ALIGN_BOTTOM
         else align = ALIGN_CENTER
     }

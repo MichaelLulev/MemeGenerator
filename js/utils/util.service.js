@@ -139,18 +139,15 @@ function lineParams(x1, y1, x2, y2) {
 // newA = 1
 // newB = 0
 // newC = -x1
-function rotateLineAroundPoint([a, b, c], x1, y1, angle) {
-    var newA, newB, newC
+function rotateLineAroundPoint(line, x1, y1, angle) {
+    const [a, b, c] = line
+    const radius = distancePointToLine(x1, y1, line)
     const newM = Math.tan(Math.atan(-a/b)) + angle
-    if (Math.abs(newM) !== Infinity) {
-        newA = newM
-        newB = 1
-        newC = -y1 + newM*x1
-    } else {
-        newA = 1
-        newB = 0
-        newC = -x1
-    }
+    var newA, newB, newC
+    newA = -newM
+    newB = 1
+    newC = radius*Math.sqrt(newM**2 + 1) + newM*x1 - y1
+    log(newA, newB, newC)
     return [newA, newB, newC]
 }
 

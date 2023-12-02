@@ -92,6 +92,10 @@ function drawElement(element) {
     // pos.line2 = lineParams(pos.leftX, pos.bottomY, pos.rightX, pos.bottomY)
     // pos.line3 = lineParams(pos.leftX, pos.bottomY, pos.leftX, pos.topY)
     // pos.line4 = lineParams(pos.rightX, pos.bottomY, pos.rightX, pos.topY)
+    // pos.line1 = rotateLineAroundPoint(pos.line1, pos.x, pos.y, angle)
+    // pos.line2 = rotateLineAroundPoint(pos.line2, pos.x, pos.y, angle)
+    // pos.line3 = rotateLineAroundPoint(pos.line3, pos.x, pos.y, angle)
+    // pos.line4 = rotateLineAroundPoint(pos.line4, pos.x, pos.y, angle)
     gCanvas.translate(pos.x, pos.y)
     gCanvas.rotate(angle)
     if (type === TYPE_TEXT_LINE) {
