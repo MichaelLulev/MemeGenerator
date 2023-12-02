@@ -68,6 +68,8 @@ function selectElementByBoundingBox(mouseX, mouseY) {
     })
     if (elementToSelect) {
         selectElement(elementToSelect)
+        gPrevX = mouseX
+        gPrevY = mouseY
     } else deselectElement()
     gPrevX = mouseX
     gPrevY = mouseY
@@ -98,8 +100,7 @@ function transformElement(currCircleX, currCircleY) {
     const currDist = distance(elementX, elementY, currCircleX, currCircleY)
     const newFontSize = gOriginalFontSize * currDist / prevDist
     gSelectedElement.fontSize = newFontSize
-    const angleAddition = elementX < currCircleX ? 0 : -Math.PI 
-    gSelectedElement.angle = Math.atan((currCircleY - elementY) / (currCircleX - elementX)) + angleAddition
+    gSelectedElement.angle = angle(elementX, elementY, currCircleX, currCircleY)
 }
 
 function stopTransformingElement() {
@@ -121,6 +122,10 @@ function moveElement(currX, currY) {
     pos.bottomY += diffY
     gPrevX = currX
     gPrevY = currY
+}
+
+function checkMoving() {
+    return gPrevX !== undefined
 }
 
 function stopMovingElement() {
@@ -165,6 +170,8 @@ function deselectElement() {
         gSelectedElement.isSelected = false
         gSelectedElement = undefined
     }
+    stopTransformingElement()
+    stopMovingElement()
 }
 
 function justifyElement(justifySide) {

@@ -100,6 +100,9 @@ function onSelectWithMouse(ev) {
 }
 
 function onMoveWithMouse(ev) {
+    const isTransforming = checkTransforming()
+    const isMoving = checkMoving()
+    if (! isTransforming && ! isMoving) return
     const mouseX = ev.offsetX
     const mouseY = ev.offsetY
     const isTransforming = checkTransforming()

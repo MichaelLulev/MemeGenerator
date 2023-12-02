@@ -58,6 +58,12 @@ function distance(x1, y1, x2, y2) {
     return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 }
 
+function angle(x1, y1, x2, y2) {
+    const angle = Math.atan((y1 - y2) / (x1 - x2))
+    const addon = (x1 <= x2) ? 0 : -Math.PI
+    return angle + addon
+}
+
 function getRandomElements(elements, num) {
     const elementsCopy = elements.slice()
     const randomElements = []
