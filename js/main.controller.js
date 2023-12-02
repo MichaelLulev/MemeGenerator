@@ -298,11 +298,11 @@ function onChangeFillColor(ev) {
 }
 
 function onToggleAbout() {
-    el('.main-about').toggleClass('hidden')
+    el('.main-about').toggleClass('transparent')
 }
 
 function onCloseAbout() {
-    el('.main-about').addClass('hidden')
+    el('.main-about').addClass('transparent')
 }
 
 function onDownloadImage(ev) {

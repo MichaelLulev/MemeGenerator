@@ -9,7 +9,9 @@
 <body>
     <div class="app-container">
         <header>
-            <img src="img/logo.svg" alt="MemeGen-logo">
+            <div class="logo">
+                MemeGen
+            </div>
             <nav>
                 <ul>
                     <li class="editor">Meme Editor</li>
@@ -18,6 +20,11 @@
                     <li class="about">About</li>
                 </ul>
             </nav>
+            <div class="hamburger-menu">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
         </header>
         <main class="main-gallery">
             <section class="search">
@@ -35,7 +42,7 @@
         </main>
         <main class="main-editor hidden">
             <section class="canvas-container">
-                <canvas class="meme" width="400" height="400"></canvas>
+                <canvas class="meme" width="0" height="0"></canvas>
             </section>
             <section class="controls">
                 <div class="control-row">
@@ -117,7 +124,7 @@
         <main class="main-memes hidden">
 
         </main>
-        <div class="main-about hidden">
+        <div class="main-about transparent">
             <p>
                 A meme generator
             </p>

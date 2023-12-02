@@ -4,6 +4,7 @@
 }
 
 body {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     margin: 0;
     height: 100vh;
     display: flex;
@@ -17,27 +18,38 @@ body {
     border-radius: 1em;
     background-color: rgb(220, 220, 220);
     height: 95vh;
-    max-width: max-content;
+    width: 80vw;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
     justify-items: center;
 }
 
-.app-container > * {
-    max-width: 1024px;
-}
-
 header {
+    color: white;
+    font-size: 1.2rem;
+    --shadow: 0.1em;
+    text-shadow: 
+        calc(-1 * var(--shadow)) calc(-1 * var(--shadow)) 0 #000,  
+        var(--shadow) calc(-1 * var(--shadow)) 0 #000,
+        calc(-1 * var(--shadow)) var(--shadow) 0 #000,
+        var(--shadow) var(--shadow) 0 #000;
     background-color: var(--light-green);
     width: 100%;
+    height: 100%;
+    padding: 0.75rem 0;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+header .logo {
+    font-size: 2em;
 }
 
 nav ul {
+    margin: 0;
     padding: 0;
-    margin-inline-start: 1.5rem;
     display: flex;
     gap: 0.75rem;
     list-style: none;
@@ -45,16 +57,34 @@ nav ul {
 
 nav ul li {
     width: max-content;
-    padding: 0.5em;
+    padding: 0.25em 0.6em;
     background-color: rgb(150, 150, 150);
     color: rgb(255, 255, 255);
-    border-radius: 0.75em;
+    border-radius: 0.6em;
     transition: 200ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 nav ul li:hover {
     background-color: rgb(180, 180, 180);
-    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+header .hamburger-menu {
+    display: none;
+    transition: 300ms;
+    width: 2.1rem;
+    height: 1.5rem;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header .hamburger-menu .line {
+    background-color: black;
+    height: 0.25rem;
+    width: 100%;
 }
 
 input[type="text"], select {
@@ -66,6 +96,20 @@ input[type="text"], select {
     display: flex;
     flex-direction: column;
     overflow: auto;
+}
+
+.main-gallery .search-cloud .tag {
+    transition: 200ms;
+}
+
+.main-gallery .search-cloud .tag:hover {
+    cursor: pointer;
+    color: rgb(100, 100, 100);
+}
+
+.main-gallery .search-cloud .tag:active {
+    cursor: pointer;
+    color: rgb(100, 100, 100);
 }
 
 .gallery-layout {
@@ -100,8 +144,21 @@ input[type="text"], select {
     gap: 1rem;
 }
 
-canvas {
+.canvas-container {
+    background-color: white;
+    border-radius: 1em;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.canvas-container canvas {
+    /* display: none; */
     background-color: rgb(255, 255, 255);
+    outline: 1px solid black;
     border-radius: 1em;
 }
 
@@ -120,6 +177,7 @@ canvas {
 }
 
 .control-row {
+    width: max-content;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
@@ -146,6 +204,7 @@ canvas {
     align-items: center;
     padding: 0.75em;
     border-radius: 1em;
+    transition: 200ms;
 }
 
 @media (width <= 900px) {
@@ -153,9 +212,9 @@ canvas {
         height: auto;
     }
 
-    .app-container:has(.main-gallery.hidden) {
-        margin: 1rem;
-        height: auto;
+    .app-container {
+        width: 95vw;
+        border-radius: 0 0 1em 1em ;
     }
 
     .main-editor:not(.hidden) {
@@ -164,6 +223,62 @@ canvas {
         flex-wrap: nowrap;
         gap: 1rem;
     }
+}
+
+@media (width <= 768px) {
+    body:has(.main-gallery.hidden) {
+        height: auto;
+    }
+
+    nav ul {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        translate: 0 -100%;
+        flex-direction: column;
+        gap: 0;
+        font-size: 1.5rem;
+    }
+    
+    nav ul li {
+        width: 100%;
+        height: 100%;
+        padding: 0em;
+        background-color: rgb(150, 150, 150);
+        color: rgb(255, 255, 255);
+        border-radius: 0;
+        border-bottom: 2px solid rgb(120, 120, 120);
+    }
+
+    nav ul li:hover {
+        background-color: rgb(180, 180, 180);
+        font-size: 1.2em;
+    }
+
+    header .hamburger-menu {
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        display: flex;
+    }
+
+    header .hamburger-menu:hover {
+        rotate: 90deg;
+    }
+
+    .main-editor:not(.hidden) {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 1rem;
+    }
+}
+
+.transparent {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .hidden {

@@ -15,8 +15,11 @@ var gElCanvas
 var gCanvas
 
 function initCanvas() {
+    const gElCanvasContainer = el('.canvas-container')[0]
     gElCanvas = el('canvas.meme')[0]
     gCanvas = gElCanvas.getContext('2d')
+    gElCanvas.width = gElCanvasContainer.offsetWidth
+    gElCanvas.height = gElCanvasContainer.offsetHeight
 }
 
 function redrawCanvas() {
@@ -30,8 +33,6 @@ function redrawCanvas() {
 
 function clearCanvas() {
     gCanvas.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
-    gElCanvas.width = DEFAULT_IMAGE_WIDTH
-    gElCanvas.height = DEFAULT_IMAGE_HEIGHT
 }
 
 function drawImage(image) {
