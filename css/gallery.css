@@ -1,0 +1,20 @@
+.main-gallery {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.main-gallery .search-cloud .tag {
+    transition: color 200ms;
+}
+
+.main-gallery .search-cloud .tag:hover {
+    cursor: pointer;
+    color: rgb(100, 100, 100);
+}
+
+.main-gallery .search-cloud .tag:active {
+    cursor: pointer;
+    color: rgb(100, 100, 100);
+}

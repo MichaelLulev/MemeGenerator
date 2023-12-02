@@ -1,0 +1,8 @@
+.transparent {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.hidden {
+    display: none;
+}
