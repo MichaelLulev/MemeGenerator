@@ -5,15 +5,18 @@ window.onload = onInit
 function onInit() {
     initGallery()
     initEditor()
+    initMemes()
     initControls()
     initListeners()
 }
 
 function initListeners() {
     el('header nav .editor').on('mousedown', onShowEditor)
+    el('header nav .memes').on('mousedown', onShowMemes)
     el('header nav .gallery').on('mousedown', onShowGallery)
     el('header nav .about').on('mousedown', onToggleAbout)
     el('header .hamburger-menu').on('mousedown', onOpenHamburgerMenu)
+    el('.main-memes img').on('click', onSelectMeme)
     el('.main-gallery .search input[type="text"]').on('change', onFilterImages)
     el('.main-gallery .search-cloud .tag').on('click', onFilterImageByTag)
     el('.main-gallery img').on('click', onSelectImage)
@@ -58,6 +61,15 @@ function onOpenHamburgerMenu() {
 
 function onShowEditor() {
     el('.main-editor').removeClass('hidden')
+    el('.main-memes').addClass('hidden')
+    el('.main-gallery').addClass('hidden')
+    el('header nav ul').removeClass('open')
+    el('header .hamburger-menu').removeClass('open')
+}
+
+function onShowMemes() {
+    el('.main-editor').addClass('hidden')
+    el('.main-memes').removeClass('hidden')
     el('.main-gallery').addClass('hidden')
     el('header nav ul').removeClass('open')
     el('header .hamburger-menu').removeClass('open')
@@ -65,6 +77,7 @@ function onShowEditor() {
 
 function onShowGallery() {
     el('.main-editor').addClass('hidden')
+    el('.main-memes').addClass('hidden')
     el('.main-gallery').removeClass('hidden')
     el('header nav ul').removeClass('open')
     el('header .hamburger-menu').removeClass('open')
@@ -86,6 +99,20 @@ function onFilterImageByTag(ev) {
         .val(ev.target.innerText)[0]
     elInput.dispatchEvent(new Event('change'))
     el('.main-gallery .search-cloud .tag').on('click', onFilterImageByTag)
+}
+
+function onSelectMeme(ev) {
+    const img = ev.target
+    console.log(img)
+    const myMemes = loadMemes()
+    console.log(myMemes)
+    console.log(img.dataset.idx)
+    const meme = myMemes[img.dataset.idx]
+    console.log(meme)
+    initEditor()
+    setCurrMeme(meme)
+    redrawCanvas()
+    onShowEditor()
 }
 
 function onSelectImage(ev) {
@@ -338,6 +365,7 @@ function onCloseAbout() {
 
 function onSaveMeme() {
     saveMeme()
+    initMemes()
 }
 
 function onDownloadImage(ev) {

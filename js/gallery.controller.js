@@ -43,5 +43,5 @@ function renderGallery() {
             </div>`
     }, '')
     if (! strHtml) strHtml = 'Didn\'t find any images'
-    el('.gallery-layout').html(strHtml)
+    el('.main-gallery .gallery-layout').html(strHtml)
 }

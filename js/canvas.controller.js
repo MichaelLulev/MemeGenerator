@@ -34,6 +34,11 @@ function clearCanvas() {
     gCanvas.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
 }
 
+function getImageDataUrl() {
+    console.log(gElCanvas)
+    return gElCanvas.toDataURL()
+}
+
 function drawImage(image) {
     const width  = image.naturalWidth
     const height = image.naturalHeight

@@ -41,12 +41,19 @@ function initEditor() {
 function saveMeme() {
     var myMemes = loadFromStorage('myMemes')
     if (! myMemes) myMemes = []
+    gCurrMeme.imageDataUrl = getImageDataUrl()
     myMemes.push(gCurrMeme)
     saveToStorage('myMemes', myMemes)
 }
 
 function loadMemes() {
+    var myMemes = loadFromStorage('myMemes')
+    if (! myMemes) myMemes = []
+    return myMemes
+}
 
+function setCurrMeme(meme) {
+    gCurrMeme = meme
 }
 
 function removeElements() {
@@ -231,7 +238,6 @@ function _createMeme(image) {
         const url = new URL(image.src)
         imageSrc = url.pathname.slice(1)
     }
-    log(imageSrc)
     const meme = {
         type: 'meme',
         image,
