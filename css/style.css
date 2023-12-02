@@ -129,10 +129,15 @@ input[type="text"], select {
 }
 
 .gallery-layout .image-container img {
+    transition: 200ms;
     border-radius: 0.5rem;
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.gallery-layout .image-container img:hover {
+    transform: scale(1.05, 1.05);
 }
 
 .main-editor {
