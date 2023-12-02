@@ -13,6 +13,7 @@ function initListeners() {
     el('header nav .editor').on('mousedown', onShowEditor)
     el('header nav .gallery').on('mousedown', onShowGallery)
     el('header nav .about').on('mousedown', onToggleAbout)
+    el('header .hamburger-menu').on('mousedown', onOpenHamburgerMenu)
     el('.main-gallery .search input[type="text"]').on('change', onFilterImages)
     el('.main-gallery .search-cloud .tag').on('click', onFilterImageByTag)
     el('.main-gallery img').on('click', onSelectImage)
@@ -46,14 +47,23 @@ function initListeners() {
     el('.main-about .close').on('click', onCloseAbout)
 }
 
+function onOpenHamburgerMenu() {
+    el('header nav ul').toggleClass('open')
+    el('header .hamburger-menu').toggleClass('open')
+}
+
 function onShowEditor() {
     el('.main-editor').removeClass('hidden')
     el('.main-gallery').addClass('hidden')
+    el('header nav ul').removeClass('open')
+    el('header .hamburger-menu').removeClass('open')
 }
 
 function onShowGallery() {
     el('.main-editor').addClass('hidden')
     el('.main-gallery').removeClass('hidden')
+    el('header nav ul').removeClass('open')
+    el('header .hamburger-menu').removeClass('open')
 }
 
 function onFilterImages(ev) {
