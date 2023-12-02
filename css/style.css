@@ -207,14 +207,9 @@ input[type="text"], select {
     transition: 200ms;
 }
 
-@media (width <= 900px) {
-    body:has(.main-gallery.hidden) {
-        height: auto;
-    }
-
+@media (width <= 1024px) {
     .app-container {
         width: 95vw;
-        border-radius: 0 0 1em 1em ;
     }
 
     .main-editor:not(.hidden) {
@@ -226,10 +221,6 @@ input[type="text"], select {
 }
 
 @media (width <= 768px) {
-    body:has(.main-gallery.hidden) {
-        height: auto;
-    }
-
     nav ul {
         position: fixed;
         top: 0;
