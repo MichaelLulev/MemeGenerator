@@ -38,6 +38,17 @@ function initEditor() {
     initCanvas()
 }
 
+function saveMeme() {
+    var myMemes = loadFromStorage('myMemes')
+    if (! myMemes) myMemes = []
+    myMemes.push(gCurrMeme)
+    saveToStorage('myMemes', myMemes)
+}
+
+function loadMemes() {
+
+}
+
 function removeElements() {
     gCurrMeme.elements = []
     gNextElementId = 1
@@ -215,9 +226,16 @@ function changeFillColor(color) {
 }
 
 function _createMeme(image) {
+    var imageSrc
+    if (image) {
+        const url = new URL(image.src)
+        imageSrc = url.pathname.slice(1)
+    }
+    log(imageSrc)
     const meme = {
         type: 'meme',
         image,
+        imageSrc,
         elements: [],
     }
     return meme

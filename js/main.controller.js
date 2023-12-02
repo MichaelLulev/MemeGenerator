@@ -46,6 +46,7 @@ function initListeners() {
     el('.main-editor button.remove').on('click', onRemove)
     el('.main-editor button.clear').on('click', onClear)
     el('.main-editor button.new-meme').on('click', onNewMeme)
+    el('.main-editor button.save').on('click', onSaveMeme)
     el('.main-editor a[download]').on('click', onDownloadImage)
     el('.main-about .close').on('click', onCloseAbout)
 }
@@ -198,7 +199,7 @@ function onSubmitEmoji(ev) {
     const selectedElement = getSelectedElement()
     if (selectedElement) deselectElement()
     else onAddEmoji()
-    renderInputEmojiSearch()
+    // renderInputEmojiSearch()
     redrawCanvas()
 }
 
@@ -333,6 +334,10 @@ function onToggleAbout() {
 
 function onCloseAbout() {
     el('.main-about').addClass('transparent')
+}
+
+function onSaveMeme() {
+    saveMeme()
 }
 
 function onDownloadImage(ev) {

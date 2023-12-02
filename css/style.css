@@ -168,7 +168,6 @@ input[type="text"], select {
 .canvas-container canvas {
     /* display: none; */
     background-color: rgb(255, 255, 255);
-    outline: 1px solid black;
     border-radius: 1em;
 }
 
@@ -201,6 +200,11 @@ input[type="text"], select {
 
 .control-row button {
     width: max-content
+}
+
+.control-row .emoji-search {
+    font-size: 2rem;
+    width: 10rem;
 }
 
 .main-footer > *{
