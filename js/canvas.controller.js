@@ -88,6 +88,10 @@ function drawElement(element) {
     pos.rightX = pos.x + pos.width
     pos.topY = pos.y
     pos.bottomY = pos.y + fontSize
+    // pos.line1 = lineParams(pos.leftX, pos.topY, pos.rightX, pos.topY)
+    // pos.line2 = lineParams(pos.leftX, pos.bottomY, pos.rightX, pos.bottomY)
+    // pos.line3 = lineParams(pos.leftX, pos.bottomY, pos.leftX, pos.topY)
+    // pos.line4 = lineParams(pos.rightX, pos.bottomY, pos.rightX, pos.topY)
     gCanvas.translate(pos.x, pos.y)
     gCanvas.rotate(angle)
     if (type === TYPE_TEXT_LINE) {

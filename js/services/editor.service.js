@@ -65,14 +65,14 @@ function selectElementByBoundingBox(mouseX, mouseY) {
     const elementToSelect = gCurrMeme.elements.findLast(el => {
         const { leftX, rightX, topY, bottomY } = el.pos
         return checkInBox(mouseX, mouseY, leftX, rightX, topY, bottomY)
+        // const { line1, line2, line3, line4 } = el.pos
+        // return checkPointInBoundingLines(mouseX, mouseY, line1, line2, line3, line4)
     })
     if (elementToSelect) {
         selectElement(elementToSelect)
         gPrevX = mouseX
         gPrevY = mouseY
     } else deselectElement()
-    gPrevX = mouseX
-    gPrevY = mouseY
     return elementToSelect
 }
 

@@ -105,7 +105,6 @@ function onMoveWithMouse(ev) {
     if (! isTransforming && ! isMoving) return
     const mouseX = ev.offsetX
     const mouseY = ev.offsetY
-    const isTransforming = checkTransforming()
     if (isTransforming) {
         transformElement(mouseX, mouseY)
     } else {
