@@ -1,10 +1,19 @@
+:root {
+    --color-a1: #8ecae6;
+    --color-a2: #219ebc;
+    --color-a3: #023047;
+    --color-a4: #ffb703;
+    --color-a5: #fb8500;
+}
+
 * {
     box-sizing: border-box;
     user-select: none;
+    font-family: Rubik;
 }
 
 body {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-color: var(--color-a3);
     margin: 0;
     height: 100vh;
     display: flex;
@@ -13,10 +22,9 @@ body {
 }
 
 .app-container {
-    margin: 0 1em;
     padding: 0 1em;
     border-radius: 1em;
-    background-color: rgb(220, 220, 220);
+    background-color: var(--color-a2);
     height: 95vh;
     width: 80vw;
     display: grid;

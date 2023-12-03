@@ -7,7 +7,7 @@ function initMemes() {
 function renderMemes() {
     const myMemes = loadMemes()
     const elMemesGallery = el('.main-memes .gallery-layout')[0]
-    elMemesGallery.innerHtml = ''
+    elMemesGallery.innerText = ''
     var numMemes = 0
     myMemes.forEach((meme, idx) => {
         const elImageContainer = document.createElement('div')

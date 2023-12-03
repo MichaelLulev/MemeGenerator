@@ -1,3 +1,6 @@
-.main-footer > *{
+.main-footer > * {
     margin: 1em;
+    padding: 0 0.5em;
+    border-radius: 1em;
+    background-color: var(--color-a1);
 }
