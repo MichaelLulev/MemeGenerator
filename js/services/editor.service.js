@@ -202,12 +202,14 @@ function deselectElement() {
 
 function justifyElement(justifySide) {
     if (gSelectedElement) {
+        gSelectedElement.pos.x = undefined
         gSelectedElement.justify = justifySide
     }
 }
 
 function alignElement(alignSide) {
     if (gSelectedElement) {
+        gSelectedElement.pos.y = undefined
         gSelectedElement.align = alignSide
     }
 }
