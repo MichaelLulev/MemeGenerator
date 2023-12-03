@@ -35,7 +35,6 @@ function clearCanvas() {
 }
 
 function getImageDataUrl() {
-    console.log(gElCanvas)
     return gElCanvas.toDataURL()
 }
 
@@ -59,48 +58,61 @@ function drawElement(element) {
     // pos.height = fontSize + (type === TYPE_EMOJI ? 10 : 0)
     pos.width = textWidth
     pos.height = fontSize
-    if (pos.x === undefined) {
-        switch (justify) {
-            case JUSTIFY_LEFT:
-                pos.x = 0 + PADDING_LEFT
-                break
-            case JUSTIFY_CENTER:
-                pos.x = gElCanvas.width / 2 - textWidth / 2
-                break
-            case JUSTIFY_RIGHT:
-                pos.x = gElCanvas.width - textWidth - PADDING_RIGHT
-                break
-        }
-    }
-    if (pos.y === undefined) {
-        switch (align) {
-            case ALIGN_TOP:
-                pos.y = 0 + PADDING_TOP
-                break
-            case ALIGN_CENTER:
-                pos.y = gElCanvas.height / 2 - fontSize / 2
-                break
-            case ALIGN_BOTTOM:
-                pos.y = gElCanvas.height - fontSize - PADDING_BOTTOM
-                break
-        }
-    }
     // pos.leftX = pos.x + (type === TYPE_EMOJI ? 2 : -4)
     // pos.rightX = pos.x + pos.width
     // pos.topY = pos.y + (type === TYPE_EMOJI ? 1 : 4)
     // pos.bottomY = pos.y + fontSize
+    if (pos.x === undefined) pos.x = 0
+    if (pos.y === undefined) pos.y = 0
     pos.leftX = pos.x
     pos.rightX = pos.x + pos.width
     pos.topY = pos.y
     pos.bottomY = pos.y + fontSize
-    // pos.line1 = lineParams(pos.leftX, pos.topY, pos.rightX, pos.topY)
-    // pos.line2 = lineParams(pos.leftX, pos.bottomY, pos.rightX, pos.bottomY)
-    // pos.line3 = lineParams(pos.leftX, pos.bottomY, pos.leftX, pos.topY)
-    // pos.line4 = lineParams(pos.rightX, pos.bottomY, pos.rightX, pos.topY)
-    // pos.line1 = rotateLineAroundPoint(pos.line1, pos.x, pos.y, angle)
-    // pos.line2 = rotateLineAroundPoint(pos.line2, pos.x, pos.y, angle)
-    // pos.line3 = rotateLineAroundPoint(pos.line3, pos.x, pos.y, angle)
-    // pos.line4 = rotateLineAroundPoint(pos.line4, pos.x, pos.y, angle)
+    pos.points = []
+    pos.points.push([pos.leftX, pos.topY])
+    pos.points.push([pos.rightX, pos.topY])
+    pos.points.push([pos.rightX, pos.bottomY])
+    pos.points.push([pos.leftX, pos.bottomY])
+    pos.points[1] = rotatePointAroundPoint(pos.points[1], pos.points[0], angle)
+    pos.points[2] = rotatePointAroundPoint(pos.points[2], pos.points[0], angle)
+    pos.points[3] = rotatePointAroundPoint(pos.points[3], pos.points[0], angle)
+    pos.lines = []
+    pos.lines[0] = lineParams(pos.points[0], pos.points[1])
+    pos.lines[1] = lineParams(pos.points[2], pos.points[3])
+    pos.lines[2] = lineParams(pos.points[1], pos.points[2])
+    pos.lines[3] = lineParams(pos.points[3], pos.points[0])
+    if (justify) {
+        const minX = pos.points.reduce((minX, point) => Math.min(minX, point[0]), Infinity)
+        const maxX = pos.points.reduce((maxX, point) => Math.max(maxX, point[0]), -Infinity)
+        switch (justify) {
+            case justify_left:
+                pos.x = 0 + padding_left
+                break
+            case justify_center:
+                pos.x = gelcanvas.width / 2 - textwidth / 2
+                break
+            case justify_right:
+                pos.x = gelcanvas.width - textwidth - padding_right
+                break
+        }
+        justify = undefined
+    }
+    if (align) {
+        const minY = pos.points.reduce((minY, point) => Math.min(minY, point[1]), Infinity)
+        const maxY = pos.points.reduce((maxY, point) => Math.max(maxY, point[1]), -Infinity)
+        switch (align) {
+            case align_top:
+                pos.y = 0 + padding_top
+                break
+            case align_center:
+                pos.y = gelcanvas.height / 2 - fontsize / 2
+                break
+            case align_bottom:
+                pos.y = gelcanvas.height - fontsize - padding_bottom
+                break
+        }
+        align = undefined
+    }
     gCanvas.translate(pos.x, pos.y)
     gCanvas.rotate(angle)
     if (type === TYPE_TEXT_LINE) {
@@ -112,18 +124,34 @@ function drawElement(element) {
     if (isSelected) {
         gCanvas.lineWidth = 2
         gCanvas.strokeStyle = 'white'
-        gCanvas.strokeRect(pos.leftX, pos.topY, pos.width, pos.height)
+        // gCanvas.strokeRect(pos.leftX, pos.topY, pos.width, pos.height)
+        drawPoligon(...pos.points)
+        gCanvas.stroke()
         gCanvas.strokeStyle = 'black'
         gCanvas.setLineDash([5, 5])
-        gCanvas.strokeRect(pos.leftX, pos.topY, pos.width, pos.height)
+        // gCanvas.strokeRect(pos.leftX, pos.topY, pos.width, pos.height)
+        drawPoligon(...pos.points)
+        gCanvas.stroke()
         gCanvas.setLineDash([])
         gCanvas.beginPath()
         gCanvas.strokeStyle = 'white'
-        gCanvas.arc(pos.rightX, pos.topY, CIRCLE_RADIUS, 0, Math.PI * 2)
+        // gCanvas.arc(pos.rightX, pos.topY, CIRCLE_RADIUS, 0, Math.PI * 2)
+        gCanvas.arc(...pos.points[1], CIRCLE_RADIUS, 0, Math.PI * 2)
         gCanvas.fill()
         gCanvas.strokeStyle = 'black'
-        gCanvas.arc(pos.rightX, pos.topY, CIRCLE_RADIUS, 0, Math.PI * 2)
+        gCanvas.arc(...pos.points[1], CIRCLE_RADIUS, 0, Math.PI * 2)
         gCanvas.stroke()
         gCanvas.setLineDash([])
     }
+}
+
+function drawPoligon(...points) {
+    if (points.length === 0) return
+    var currPoint = points[0]
+    gCanvas.moveTo(...currPoint)
+    for (var i = 1; i < points.length; i++) {
+        currPoint = points[i]
+        gCanvas.lineTo(...currPoint)
+    }
+    gCanvas.closePath()
 }

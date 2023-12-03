@@ -102,17 +102,18 @@ function onFilterImageByTag(ev) {
 }
 
 function onSelectMeme(ev) {
-    const img = ev.target
-    console.log(img)
+    const previewImage = ev.target
     const myMemes = loadMemes()
-    console.log(myMemes)
-    console.log(img.dataset.idx)
-    const meme = myMemes[img.dataset.idx]
-    console.log(meme)
-    initEditor()
-    setCurrMeme(meme)
-    redrawCanvas()
-    onShowEditor()
+    const memeIdx = previewImage.dataset.idx
+    const meme = myMemes[memeIdx]
+    meme.image = new Image()
+    meme.image.src = meme.imageSrc
+    meme.image.onload = () => {
+        initEditor()
+        setCurrMeme(meme)
+        redrawCanvas()
+        onShowEditor()
+    }
 }
 
 function onSelectImage(ev) {
@@ -366,6 +367,7 @@ function onCloseAbout() {
 function onSaveMeme() {
     saveMeme()
     initMemes()
+    el('.main-memes img').on('click', onSelectMeme)
 }
 
 function onDownloadImage(ev) {

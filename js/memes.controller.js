@@ -1,28 +1,23 @@
 'use strict'
 
 function initMemes() {
-    renderMyMemes()
+    renderMemes()
 }
 
-function renderMyMemes() {
+function renderMemes() {
     const myMemes = loadMemes()
-    const elMyMemes = el('.main-memes .gallery-layout')[0]
-    elMyMemes.innerText = ''
+    const elMemesGallery = el('.main-memes .gallery-layout')[0]
+    elMemesGallery.innerHtml = ''
     var numMemes = 0
     myMemes.forEach((meme, idx) => {
-        const div = document.createElement('div')
+        const elImageContainer = document.createElement('div')
         const previewImg = new Image()
-        const memeImg = new Image()
         previewImg.src = meme.imageDataUrl
         previewImg.dataset.idx = idx
-        memeImg.src = meme.imageSrc
-        meme.image = memeImg
-        div.setAttribute('class', 'image-container')
-        div.appendChild(previewImg)
-        elMyMemes.appendChild(div)
+        elImageContainer.setAttribute('class', 'image-container')
+        elImageContainer.appendChild(previewImg)
+        elMemesGallery.appendChild(elImageContainer)
         numMemes++
-        console.log(previewImg)
-        console.log(memeImg)
     })
-    if (! numMemes) elMyMemes.innerText = 'Didn\'t find any images'
+    if (! numMemes) elMemesGallery.innerText = 'Didn\'t find any images'
 }

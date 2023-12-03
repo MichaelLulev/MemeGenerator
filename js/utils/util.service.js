@@ -95,7 +95,7 @@ function distancePointToLine(x1, y1, [a, b, c]) {
 // if (x1 === x2)
 // x = x1
 // 1*x + 0*y - x1 = 0
-function lineParams(x1, y1, x2, y2) {
+function lineParams([x1, y1], [x2, y2]) {
     var a, b, c
     if (x1 !== x2) {
         a = -Math.tan(angle(x1, y1, x2, y2))
@@ -109,46 +109,14 @@ function lineParams(x1, y1, x2, y2) {
     return [a, b, c]
 }
 
-// a*x + b*y + c = 0
-// b*y = -a*x - c
-// y = -a/b*x - x
-// m = -a/b
-// m = tan(angle1)
-// tan(angle1) = -a/b
-// angle1 = atan(tan(angle1))
-// angle1 = atan(-a/b)
-// angle1 + angle2 = atan(-a/b) + angle2
-// newM = tan(angle1 + angle2)
-// newM = tan(atan(-a/b) + angle2)
-// y = m*x + n
-// y1 - m*x1 = n
-// y = m*x + (y1 - m*x1)
-// -m*x + 1*y - (y1 - m*x1) = 0
-// -m*x + 1*y - y1 + m*x1 = 0
-// a*x + b*y + c = 0
-// a = -m
-// b = 1
-// c = -y1 + m*x1
-// if (|newM| !== Infinity)
-// newA = newM
-// newB = 1
-// newC = -y1 + newM*x1
-// else
-// x = x1
-// 1*x + 0*y -x1 = 0
-// newA = 1
-// newB = 0
-// newC = -x1
-function rotateLineAroundPoint(line, x1, y1, angle) {
-    const [a, b, c] = line
-    const radius = distancePointToLine(x1, y1, line)
-    const newM = Math.tan(Math.atan(-a/b)) + angle
-    var newA, newB, newC
-    newA = -newM
-    newB = 1
-    newC = radius*Math.sqrt(newM**2 + 1) + newM*x1 - y1
-    log(newA, newB, newC)
-    return [newA, newB, newC]
+function rotatePointAroundPoint([x1, y1], [x2, y2], angle) {
+    var rotatedX1 = x1 - x2;
+    var rotatedY1 = y1 - y2;
+    var newRotatedX1 = rotatedX1 * Math.cos(angle) - rotatedY1 * Math.sin(angle);
+    var newRotatedY1 = rotatedX1 * Math.sin(angle) + rotatedY1 * Math.cos(angle);
+    rotatedX1 = newRotatedX1 + x2;
+    rotatedY1 = newRotatedY1 + y2;
+    return [rotatedX1, rotatedY1];
 }
 
 function angle(x1, y1, x2, y2) {

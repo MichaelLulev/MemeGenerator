@@ -87,10 +87,11 @@ function selectElement(element) {
 
 function selectElementByBoundingBox(mouseX, mouseY) {
     const elementToSelect = gCurrMeme.elements.findLast(el => {
-        const { leftX, rightX, topY, bottomY } = el.pos
-        return checkInBox(mouseX, mouseY, leftX, rightX, topY, bottomY)
-        // const { line1, line2, line3, line4 } = el.pos
-        // return checkPointInBoundingLines(mouseX, mouseY, line1, line2, line3, line4)
+        // const { leftX, rightX, topY, bottomY } = el.pos
+        // return checkInBox(mouseX, mouseY, leftX, rightX, topY, bottomY)
+        const { lines } = el.pos
+        log(lines)
+        return checkPointInBoundingLines(mouseX, mouseY, ...lines)
     })
     if (elementToSelect) {
         selectElement(elementToSelect)
@@ -102,8 +103,9 @@ function selectElementByBoundingBox(mouseX, mouseY) {
 
 function selectElementCircleByRadius(mouseX, mouseY) {
     if (! gSelectedElement) return false
-    const circleX = gSelectedElement.pos.rightX
-    const circleY = gSelectedElement.pos.topY
+    // const circleX = gSelectedElement.pos.rightX
+    // const circleY = gSelectedElement.pos.topY
+    const [circleX, circleY] = gSelectedElement.pos.points[1]
     const isInCircle = checkInCircle(mouseX, mouseY, circleX, circleY, CIRCLE_RADIUS)
     if (! isInCircle) return false
     gPrevCircleX = mouseX
@@ -200,14 +202,12 @@ function deselectElement() {
 
 function justifyElement(justifySide) {
     if (gSelectedElement) {
-        gSelectedElement.pos.x = undefined
         gSelectedElement.justify = justifySide
     }
 }
 
 function alignElement(alignSide) {
     if (gSelectedElement) {
-        gSelectedElement.pos.y = undefined
         gSelectedElement.align = alignSide
     }
 }
