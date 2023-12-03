@@ -76,43 +76,57 @@ function drawElement(element) {
     pos.points[1] = rotatePointAroundPoint(pos.points[1], pos.points[0], angle)
     pos.points[2] = rotatePointAroundPoint(pos.points[2], pos.points[0], angle)
     pos.points[3] = rotatePointAroundPoint(pos.points[3], pos.points[0], angle)
+    pos.x = pos.points[0][0]
+    pos.y = pos.points[0][1]
+    pos.leftX = pos.x
+    pos.rightX = pos.x + pos.width
+    pos.topY = pos.y
+    pos.bottomY = pos.y + fontSize
     pos.lines = []
     pos.lines[0] = lineParams(pos.points[0], pos.points[1])
     pos.lines[1] = lineParams(pos.points[2], pos.points[3])
     pos.lines[2] = lineParams(pos.points[1], pos.points[2])
     pos.lines[3] = lineParams(pos.points[3], pos.points[0])
-    if (justify) {
-        const minX = pos.points.reduce((minX, point) => Math.min(minX, point[0]), Infinity)
-        const maxX = pos.points.reduce((maxX, point) => Math.max(maxX, point[0]), -Infinity)
-        switch (justify) {
-            case justify_left:
-                pos.x = 0 + padding_left
-                break
-            case justify_center:
-                pos.x = gelcanvas.width / 2 - textwidth / 2
-                break
-            case justify_right:
-                pos.x = gelcanvas.width - textwidth - padding_right
-                break
-        }
-        justify = undefined
-    }
-    if (align) {
-        const minY = pos.points.reduce((minY, point) => Math.min(minY, point[1]), Infinity)
-        const maxY = pos.points.reduce((maxY, point) => Math.max(maxY, point[1]), -Infinity)
-        switch (align) {
-            case align_top:
-                pos.y = 0 + padding_top
-                break
-            case align_center:
-                pos.y = gelcanvas.height / 2 - fontsize / 2
-                break
-            case align_bottom:
-                pos.y = gelcanvas.height - fontsize - padding_bottom
-                break
-        }
-        align = undefined
-    }
+    // if (justify) {
+    //     const minX = pos.points.reduce((minX, point) => Math.min(minX, point[0]), Infinity)
+    //     const maxX = pos.points.reduce((maxX, point) => Math.max(maxX, point[0]), -Infinity)
+    //     var diffX
+    //     switch (justify) {
+    //         case JUSTIFY_LEFT:
+    //             diffX = minX - PADDING_LEFT
+    //             pos.points.forEach(point => point[0] -= diffX)
+    //             break
+    //         case JUSTIFY_CENTER:
+    //             diffX = minX - (gElCanvas.width / 2 - (maxX - minX) / 2)
+    //             pos.points.forEach(point => point[0] -= diffX)
+    //             break
+    //         case JUSTIFY_RIGHT:
+    //             diffX = maxX - (gElCanvas.width - (maxX - minX) - PADDING_RIGHT)
+    //             pos.points.forEach(point => point[0] -= diffX)
+    //             break
+    //     }
+    //     element.justify = undefined
+    // }
+    // if (align) {
+    //     const minY = pos.points.reduce((minY, point) => Math.min(minY, point[1]), Infinity)
+    //     const maxY = pos.points.reduce((maxY, point) => Math.max(maxY, point[1]), -Infinity)
+    //     var diffY
+    //     switch (align) {
+    //         case ALIGN_TOP:
+    //             diffY = minY - PADDING_TOP
+    //             pos.points.forEach(point => point[1] -= diffY)
+    //             break
+    //         case ALIGN_CENTER:
+    //             diffY = minY - (gElCanvas.height / 2 - (maxY - minY) / 2)
+    //             pos.points.forEach(point => point[1] -= diffY)
+    //             break
+    //         case ALIGN_BOTTOM:
+    //             diffY = maxY - (gElCanvas.height - (maxY - minY) - PADDING_BOTTOM)
+    //             pos.points.forEach(point => point[1] -= diffY)
+    //             break
+    //     }
+    //     element.align = undefined
+    // }
     gCanvas.translate(pos.x, pos.y)
     gCanvas.rotate(angle)
     if (type === TYPE_TEXT_LINE) {
