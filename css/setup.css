@@ -37,6 +37,18 @@ body {
     overflow-y: auto;
 }
 
+.main-container {
+    position: relative;
+    width: 100%;
+    height: 100;
+}
+
+main {
+    position: absolute;
+    scale: 1 1;
+    transition: 200ms;
+}
+
 input[type="text"], select {
     font-size: 1.1em;
 }

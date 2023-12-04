@@ -8,6 +8,7 @@
 </head>
 <body>
     <div class="app-container">
+
         <header>
             <div class="logo">
                 <img src="img/LOGO.png" alt="MemeGen-logo">
@@ -35,111 +36,115 @@
             </div>
         </header>
 
-        <main class="main-gallery">
-            <section class="search">
-                <input type="text" list="tags" placeholder="Search">
-                <datalist id="tags">
-                    <!-- Filled Dynamically -->
-                </datalist>
-                <span class="search-cloud">
-                    <!-- Filled Dynamically -->
-                </span>
-            </section>
-            <section class="gallery-layout">
-                <!-- Filled Dynamically -->
-            </section>
-        </main>
+        <main class="main-container">
 
-        <main class="main-editor hidden">
-            <section class="canvas-container">
-                <canvas class="meme" width="0" height="0"></canvas>
-            </section>
-            <section class="controls">
-                <div class="control-row">
-                    <form class="text-line">
-                        <input class="line-text" type="text" placeholder="Text Line">
-                        <button class="add-line">
-                            <img src="img/add-line.svg" alt="add-line">
-                        </button>
-                    </form>
-                </div>
-                <div class="control-row">
-                    <button class="select-next">
-                        <img src="img/next-line.svg" alt="next-line">
-                    </button>
-                    <button class="deselect">Deselect Line</button>
-                </div>
-                <div class="control-row">
-                    <button class="justify-left">
-                        <img src="img/justify-left.svg" alt="justify-left">
-                    </button>
-                    <button class="justify-center">
-                        <img src="img/justify-center.svg" alt="justify-center">
-                    </button>
-                    <button class="justify-right">
-                        <img src="img/justify-right.svg" alt="justify-right">
-                    </button>
-                </div>
-                <div class="control-row control-align">
-                    <button class="align-top">Align Top</button>
-                    <button class="align-center">Align Center</button>
-                    <button class="align-bottom">Align Bottom</button>
-                </div>
-                <div class="control-row">
-                    <select class="font">
-                        <option>Impact</option>
-                        <option>Arial Black</option>
-                        <option>Comic Sans MS</option>
-                        <option>Times New Roman</option>
-                    </select>
-                    <button class="increase">
-                        <img src="img/increase.svg" alt="increase-font">
-                    </button>
-                    <button class="decrease">
-                        <img src="img/decrease.svg" alt="decrease-font">
-                    </button>
-                </div>
-                <div class="control-row">
-                    <label>
-                        <img src="img/stroke-color.svg" alt="stroke-color">
-                        <input class="stroke-color" type="color" value="#000000">
-                    </label>
-                    <label>
-                        <img src="img/fill-color.svg" alt="fill-color">
-                        <input class="fill-color" type="color" value="#ffffff">
-                    </label>
-                </div>
-                <div class="control-row">
-                    <form class="emoji">
-                        <input class="emoji-search" type="text" list="emojis" placeholder="Emojis">
-                        <datalist id="emojis">
-                            <!-- Filled Dynamically -->
-                        </datalist>
-                        <button class="add-emoji">
-                            <img src="img/add-line.svg" alt="add-emoji">
-                        </button>
-                    </form>
-                </div>
-                <div class="control-row">
-                    <button class="remove">
-                        <img src="img/remove-line.svg" alt="remove-line">
-                    </button>
-                    <button class="clear">Clear</button>
-                    <button class="new-meme">New Meme</button>
-                </div>
-                <div class="control-row">
-                    <button class="save">Save Meme</button>
-                    <a href="#" download="meme.png">Download Meme</a>
-                </div>
-            </section>
-        </main>
-
-        <main class="main-memes hidden">
-            <section class="my-memes">
+            <main class="main-gallery">
+                <section class="search">
+                    <input type="text" list="tags" placeholder="Search">
+                    <datalist id="tags">
+                        <!-- Filled Dynamically -->
+                    </datalist>
+                    <span class="search-cloud">
+                        <!-- Filled Dynamically -->
+                    </span>
+                </section>
                 <section class="gallery-layout">
                     <!-- Filled Dynamically -->
                 </section>
-            </section>
+            </main>
+
+            <main class="main-editor hidden">
+                <section class="canvas-container">
+                    <canvas class="meme" width="0" height="0"></canvas>
+                </section>
+                <section class="controls">
+                    <div class="control-row">
+                        <form class="text-line">
+                            <input class="line-text" type="text" placeholder="Text Line">
+                            <button class="add-line">
+                                <img src="img/add-line.svg" alt="add-line">
+                            </button>
+                        </form>
+                    </div>
+                    <div class="control-row">
+                        <button class="select-next">
+                            <img src="img/next-line.svg" alt="next-line">
+                        </button>
+                        <button class="deselect">Deselect Line</button>
+                    </div>
+                    <div class="control-row">
+                        <button class="justify-left">
+                            <img src="img/justify-left.svg" alt="justify-left">
+                        </button>
+                        <button class="justify-center">
+                            <img src="img/justify-center.svg" alt="justify-center">
+                        </button>
+                        <button class="justify-right">
+                            <img src="img/justify-right.svg" alt="justify-right">
+                        </button>
+                    </div>
+                    <div class="control-row control-align">
+                        <button class="align-top">Align Top</button>
+                        <button class="align-center">Align Center</button>
+                        <button class="align-bottom">Align Bottom</button>
+                    </div>
+                    <div class="control-row">
+                        <select class="font">
+                            <option>Impact</option>
+                            <option>Arial Black</option>
+                            <option>Comic Sans MS</option>
+                            <option>Times New Roman</option>
+                        </select>
+                        <button class="increase">
+                            <img src="img/increase.svg" alt="increase-font">
+                        </button>
+                        <button class="decrease">
+                            <img src="img/decrease.svg" alt="decrease-font">
+                        </button>
+                    </div>
+                    <div class="control-row">
+                        <label>
+                            <img src="img/stroke-color.svg" alt="stroke-color">
+                            <input class="stroke-color" type="color" value="#000000">
+                        </label>
+                        <label>
+                            <img src="img/fill-color.svg" alt="fill-color">
+                            <input class="fill-color" type="color" value="#ffffff">
+                        </label>
+                    </div>
+                    <div class="control-row">
+                        <form class="emoji">
+                            <input class="emoji-search" type="text" list="emojis" placeholder="Emojis">
+                            <datalist id="emojis">
+                                <!-- Filled Dynamically -->
+                            </datalist>
+                            <button class="add-emoji">
+                                <img src="img/add-line.svg" alt="add-emoji">
+                            </button>
+                        </form>
+                    </div>
+                    <div class="control-row">
+                        <button class="remove">
+                            <img src="img/remove-line.svg" alt="remove-line">
+                        </button>
+                        <button class="clear">Clear</button>
+                        <button class="new-meme">New Meme</button>
+                    </div>
+                    <div class="control-row">
+                        <button class="save">Save Meme</button>
+                        <a href="#" download="meme.png">Download Meme</a>
+                    </div>
+                </section>
+            </main>
+
+            <main class="main-memes hidden">
+                <section class="my-memes">
+                    <section class="gallery-layout">
+                        <!-- Filled Dynamically -->
+                    </section>
+                </section>
+            </main>
+
         </main>
 
         <div class="main-about transparent">
