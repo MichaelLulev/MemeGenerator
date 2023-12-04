@@ -39,6 +39,7 @@
         gap: 0;
         font-size: 1.5rem;
         transition: 200ms;
+        z-index: 1;
     }
 
     nav ul.open {
@@ -60,15 +61,16 @@
 
     header .hamburger-menu {
         position: fixed;
+        z-index: 2;
         top: 1rem;
         right: 1rem;
         display: flex;
     }
-
+    
     header .hamburger-menu.open {
         rotate: 90deg;
     }
-
+    
     header .hamburger-menu.open .line {
         background-color: var(--color-a1);
     }
