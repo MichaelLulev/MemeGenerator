@@ -27,6 +27,7 @@ body {
     background-color: var(--color-a2);
     height: 95dvh;
     width: 80dvw;
+    min-width: 1000px;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
