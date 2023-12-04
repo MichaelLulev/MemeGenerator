@@ -19,5 +19,5 @@ function renderMemes() {
         elMemesGallery.appendChild(elImageContainer)
         numMemes++
     })
-    if (! numMemes) elMemesGallery.innerText = 'Didn\'t find any images'
+    if (! numMemes) elMemesGallery.innerText = 'No memes found'
 }

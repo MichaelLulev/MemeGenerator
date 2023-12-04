@@ -24,18 +24,26 @@
 
     nav ul {
         position: fixed;
-        top: 0;
+        /* top: 0;
         bottom: 0;
         left: 0;
         right: 0;
-        translate: 0 -100%;
+        translate: 0 -100%; */
+        /* scale: 1 0; */
+        width: 100dvw;
+        height: 100dvh;
+        bottom: 100%;
+        left: 0;
         flex-direction: column;
         gap: 0;
         font-size: 1.5rem;
+        transition: 200ms;
     }
 
     nav ul.open {
-        translate: 0 0;
+        /* scale: 1 1; */
+        /* translate: 0 0; */
+        bottom: 0%;
     }
     
     nav ul li {
@@ -47,10 +55,6 @@
 
     nav ul li:not(:last-child) {
         border-bottom: 2px solid var(--color-a1);
-    }
-
-    nav ul li:hover {
-        /* background-color: rgb(180, 180, 180); */
     }
 
     header .hamburger-menu {
