@@ -357,11 +357,13 @@ function onChangeFillColor(ev) {
 }
 
 function onToggleAbout() {
-    el('.main-about').toggleClass('transparent')
+    // el('.main-about').toggleClass('transparent')
+    el('.main-about').toggleClass('hidden')
 }
 
 function onCloseAbout() {
-    el('.main-about').addClass('transparent')
+    // el('.main-about').addClass('transparent')
+    el('.main-about').addClass('hidden')
 }
 
 function onSaveMeme() {

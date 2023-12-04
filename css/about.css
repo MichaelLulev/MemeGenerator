@@ -1,5 +1,5 @@
 .main-about {
-    font-weight: 450;
+    font-weight: 500;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -10,5 +10,5 @@
     align-items: center;
     padding: 0.75em 1em;
     border-radius: 1em;
-    transition: opacity 200ms;
+    transition: 200ms;
 }
